@@ -5,8 +5,8 @@ import { api } from "@/services";
 import { Box, Flex } from '@chakra-ui/react'
 
 const Index = () => {
-    const [agents, setAgents] = useState()
-    const [selectImage, setSelectImage] = useState('')
+    const [agents, setAgents] = useState<any[]>()
+    const [selectImage, setSelectImage] = useState<any>()
 
     const handleGetAgents = async () => {
         const { data: response } = await api.get('agents?isPlayableCharacter=true')
@@ -39,7 +39,7 @@ const Index = () => {
                 {
                     agents &&
                     agents.length > 0 &&
-                    agents.map((agent: object) => {
+                    agents.map((agent) => {
                         return (
                             <Box
                                 borderWidth={2}
