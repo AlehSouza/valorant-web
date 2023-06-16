@@ -43,7 +43,7 @@ const Index = () => {
                         return (
                             <Box
                                 borderWidth={2}
-                                borderColor={selectImage.displayName === agent.displayName ? '#ff4656' : 'white'}
+                                borderColor={selectImage?.displayName === agent.displayName ? '#ff4656' : 'white'}
                                 cursor={'pointer'}
                                 key={agent.uuid}
                                 onClick={() => setSelectImage(agent)}
