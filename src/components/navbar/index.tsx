@@ -25,7 +25,7 @@ const Index = () => {
         },
         {
             label: 'Skins',
-            href: '/weapons',
+            href: '/weapons/list',
         },
     ]
 
