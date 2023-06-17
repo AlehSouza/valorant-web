@@ -26,7 +26,6 @@ const Index = () => {
     return (
         <Box
             width="100%"
-            bgImage={'https://dotesports.com/wp-content/uploads/2021/03/10113144/vct-masters-keyart.jpg'}
             style={{
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: 'cover'
@@ -42,7 +41,10 @@ const Index = () => {
                     textAlign={'center'}
                     fontSize={'80px'}
                     fontWeight={'bold'}
-                    py={24}
+                    py={16}
+                    bgImage={'https://dotesports.com/wp-content/uploads/2021/03/10113144/vct-masters-keyart.jpg'}
+                    bgRepeat={'no-repeat'}
+                    bgSize={'cover'}
                 >
                     SELECIONE SEU AGENTE
                 </Text>
@@ -55,7 +57,7 @@ const Index = () => {
                 marginRight={'auto'}
                 marginLeft={'auto'}
                 px={30}
-                pb={10}
+                py={10}
                 gap={8}
             >
                 {

@@ -1,14 +1,17 @@
-/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import Image from "next/image";
 import { Logo } from "@/assets";
-import { Button, Flex } from "@chakra-ui/react";
+import { Button, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
 const Index = () => {
     const router = useRouter()
 
     const navigation = [
+        {
+            label: 'Home',
+            href: '/',
+        },
         {
             label: 'Agentes',
             href: '/agents',
@@ -28,6 +31,7 @@ const Index = () => {
             justifyContent={'space-between'}
             bg={'#0a141ecc'}
             p={5}
+            px={20}
         >
             <Flex mr={5}
                 alignItems={'center'}
@@ -53,6 +57,7 @@ const Index = () => {
                     navigation.map((nav, index) => {
                         return (
                             <Button
+                                bg={'transparent'}
                                 key={index}
                                 onClick={
                                     () => {
@@ -60,7 +65,12 @@ const Index = () => {
                                     }
                                 }
                             >
-                                {nav.label}
+                                <Text
+                                    fontWeight={'500'}
+                                    textTransform={'uppercase'}
+                                >
+                                    {nav.label}
+                                </Text>
                             </Button>
                         )
                     })
