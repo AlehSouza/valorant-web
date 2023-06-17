@@ -15,7 +15,6 @@ const Index = () => {
     const handleGetAgents = async () => {
         const { data: response } = await api.get('agents?isPlayableCharacter=true')
         const auxAgents = response.data.sort()
-        console.log(auxAgents)
         setAgents(auxAgents)
     }
 
@@ -42,7 +41,7 @@ const Index = () => {
                     fontSize={'80px'}
                     fontWeight={'bold'}
                     py={16}
-                    bgImage={'https://dotesports.com/wp-content/uploads/2021/03/10113144/vct-masters-keyart.jpg'}
+                    bgImage={'https://imgur.com/JAHBbCf.png'}
                     bgRepeat={'no-repeat'}
                     bgSize={'cover'}
                 >

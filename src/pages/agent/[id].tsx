@@ -13,7 +13,6 @@ const Index = () => {
     const getAgent = async () => {
         try {
             const { data: response } = await api.get(`/agents/${id}`)
-            console.log(response.data)
             setAgent(response.data)
         } catch (err) {
             console.error(err)

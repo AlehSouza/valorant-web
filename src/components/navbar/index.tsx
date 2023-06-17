@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import { Logo } from "@/assets";
 import { Button, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { Router } from "next/router";
 
 const Index = () => {
     const router = useRouter()
+    const pathname = usePathname()
 
     const navigation = [
         {
@@ -25,6 +28,7 @@ const Index = () => {
             href: '/weapons',
         },
     ]
+
 
     return (
         <Flex
@@ -68,6 +72,7 @@ const Index = () => {
                                 <Text
                                     fontWeight={'500'}
                                     textTransform={'uppercase'}
+                                    color={ pathname === nav.href ? '#ff4656' : ''}
                                 >
                                     {nav.label}
                                 </Text>
