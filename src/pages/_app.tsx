@@ -16,7 +16,6 @@ const theme = extendTheme({
 })
 
 // 3. Pass the `theme` prop to the `ChakraProvider`
-
 type iProps = {
     Component: any,
     pageProps: any

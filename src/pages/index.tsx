@@ -9,7 +9,7 @@ export default function Index() {
         <title>Valorant</title>
       </Head>
       <NavBar />
-      <Carousel/>
+      <Carousel />
       <Box
         flexDirection={'column'}
         alignItems={'center'}
@@ -22,6 +22,7 @@ export default function Index() {
           fontSize={44}
           fontWeight={'bold'}
         >
+          HOME
         </Text>
       </Box>
     </Box>
