@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { NavBar } from "@/components";
 import { api } from "@/services";
+import { CarouselWeapon } from "@/components";
+import './style.css'
 
 const Index = () => {
     const router = useRouter()
     const { id } = router.query
     const [weapon, setWeapon] = useState<any>()
+    const [selectedSkin, setSelectedSkin] = useState<any>()
 
     const handleGetWeapon = async (id: any) => {
         try {
             const { data: response } = await api.get(`weapons/${id}`)
             setWeapon(response.data)
+            !selectedSkin && setSelectedSkin(response.data.skins[0])
         } catch (err) {
             console.error(err)
         }
@@ -27,16 +31,64 @@ const Index = () => {
         <Box>
             <NavBar />
             <Box
+                className="wrap-skin"
                 p={5}
                 textAlign={'center'}
-                fontSize={'32px'}
             >
                 {
-                    weapon &&
-                    <p>
-                        {weapon?.displayName}
-                    </p>
+                    selectedSkin &&
+                    <Box>
+                        <Heading
+                            textTransform={'uppercase'}
+                            fontWeight={'800'}
+                            fontFamily={'Oswald'}
+                            className="skin-name"
+                            fontSize={'3em'}
+                        >
+                            {selectedSkin?.displayName}
+                        </Heading>
+                        <Box className="wrap-img-skin">
+                            <img 
+                                src={selectedSkin.displayIcon ? selectedSkin.displayIcon : '/cross-line.png'}
+                                alt={selectedSkin.displayName}
+                            />
+                        </Box>
+                    </Box>
                 }
+
+                <Box>
+                    {
+                        weapon?.skins &&
+                        weapon?.skins.length > 0 &&
+
+                        <CarouselWeapon 
+                            skins={weapon?.skins} 
+                            setSelectedSkin={setSelectedSkin}
+                        />
+
+                        // weapon?.skins.map((skin: any) => {
+                        //     console.log(skin.displayIcon)
+                        //     return (
+                        //         <Flex
+                        //             border={'solid 1px #d5ecdd'}
+                        //             alignItems={'center'}
+                        //             // width={'15%'}
+                        //             minWidth={'unset'}
+                        //             maxWidth={'unset'}
+                        //             onClick={() => setSelectedSkin(skin)}
+                        //         >
+                        //             <Image
+                        //                 src={skin.displayIcon ? skin.displayIcon : '/cross-line.png'}
+                        //                 alt={skin.displayName}
+                        //                 width={300}
+                        //                 height={400}
+                        //             />
+                        //             <p>{skin.displayName}</p>
+                        //         </Flex>
+                        //     )
+                        // })
+                    }
+                </Box>
             </Box>
         </Box>
     )

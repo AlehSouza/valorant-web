@@ -1,0 +1,22 @@
+/* .carousel-item {
+    transition: opacity 0.3s ease;
+    opacity: 0;
+} */
+
+.image-container {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.carousel-item{
+    padding: 2px;
+}
+
+.skin-active .image-container, .carousel-item .image-container:hover{
+    outline: solid 1px #fff;
+    background: #47787F85;
+}
