@@ -117,7 +117,7 @@ export default function CaptionCarousel() {
                                 height="600px"
                                 position="relative"
                                 display={'flex'}
-                                alignItems={'flex-end'}
+                                alignItems={'center'}
                                 onClick={() => navigateTo(card.href)}
                                 style={{ 
                                     zIndex: 1,
@@ -128,8 +128,6 @@ export default function CaptionCarousel() {
                                     spacing={6}
                                     w={'full'}
                                     maxW={'lg'}
-                                    position="absolute"
-                                    bottom={'0px'}
                                 >
                                     <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
                                         <Text
@@ -137,6 +135,10 @@ export default function CaptionCarousel() {
                                             fontFamily={'Oswald'}
                                             textTransform={'uppercase'}
                                             color={'#ff4656'}
+                                            bg={'#ece8e1'}
+                                            px={3}
+                                            py={2}
+                                            pt={0}
                                         >
                                             {card.title}
                                         </Text>

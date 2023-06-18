@@ -24,11 +24,11 @@ export default function LargeWithLogoCentered() {
         <Box
             bg={useColorModeValue('gray.50', 'gray.900')}
             color={useColorModeValue('gray.700', 'gray.200')}>
-            <Box
+            {/* <Box
                 p={'5'}
                 bgColor={'#1a202c'}
             >
-            </Box>
+            </Box> */}
             <Container as={Stack} maxW={'6xl'} py={0}>
                 <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={0}>
                     {/* <Stack align={'flex-start'}>
