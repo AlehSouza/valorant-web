@@ -1,0 +1,39 @@
+.wrap-img-skin{
+    width: 800px;
+    margin: 2em auto;
+    height: auto;
+    aspect-ratio: 1 / .3;
+}
+
+.wrap-img-skin img{
+    height: 100%;
+    margin: auto;
+}
+
+.skin-name{
+    font-size: 2.5em;
+    color: #CED0CF;
+}
+
+.wrap-skin{
+    height: calc(100vh - 80px);
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (max-width: 800px) {
+    .wrap-img-skin{
+        width: 90%;
+    }
+
+    .skin-name{
+        font-size: 2em !important;
+    }
+
+    .wrap-skin{
+        height: 100vh;
+    }
+}
