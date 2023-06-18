@@ -4,10 +4,10 @@ import Image from 'next/image';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import './style.css';
 
-const WeaponCarousel = ({ skins, setSelectedSkin }) => {
+const WeaponCarousel = (props: { skins: any, setSelectedSkin: any }) => {
   const [selectedCard, setSelectedCard] = useState(0);
   const [itemsPerPage, setItemsPerPage] = useState(13);
-  const totalItems = skins.length;
+  const totalItems = props.skins.length;
   const middleIndex = Math.floor(itemsPerPage / 2);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -19,9 +19,9 @@ const WeaponCarousel = ({ skins, setSelectedSkin }) => {
     else setItemsPerPage(13);
   }, []);
 
-  const handleCardClick = (index) => {
-    if (index <= 0) index = skins.length - 1;
-    if (index >= skins.length) index = 0;
+  const handleCardClick = (index: number) => {
+    if (index <= 0) index = props.skins.length - 1;
+    if (index >= props.skins.length) index = 0;
 
     setIsAnimating(true);
 
@@ -30,13 +30,13 @@ const WeaponCarousel = ({ skins, setSelectedSkin }) => {
     }, 10);
 
     setSelectedCard(index);
-    setSelectedSkin(skins[index]);
+    props.setSelectedSkin(props.skins[index]);
   };
 
   const visibleItems = [];
   for (let i = 0; i < itemsPerPage; i++) {
     const itemIndex = (selectedCard + i - middleIndex + totalItems) % totalItems;
-    visibleItems.push(skins[itemIndex]);
+    visibleItems.push(props.skins[itemIndex]);
   }
 
   return (
