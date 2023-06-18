@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import { Box, Text } from "@chakra-ui/react";
-import { NavBar } from "@/components";
+import { Footer, NavBar } from "@/components";
 
 const Index = () => {
     return (
@@ -18,6 +18,7 @@ const Index = () => {
             >
                 Mapas
             </Text>
+            <Footer/>
         </Box>
     )
 }

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
 import { Box, Flex, Text } from "@chakra-ui/react";
-import { NavBar } from "@/components";
+import { Footer, NavBar } from "@/components";
 import { api } from "@/services";
 import { useRouter } from "next/navigation";
 
@@ -133,6 +133,7 @@ const Index = () => {
                     }
                 </Flex>
             </Box>
+            <Footer/>
         </Box>
     )
 }

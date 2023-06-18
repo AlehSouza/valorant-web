@@ -1,4 +1,4 @@
-import { NavBar } from "@/components"
+import { Footer, NavBar } from "@/components"
 import './styles.css'
 import { Box, Text } from "@chakra-ui/react"
 
@@ -22,6 +22,7 @@ const Index = () => {
                     MERCADO NOTURNO
                 </Text>
             </Box>
+            <Footer/>
         </Box>
     )
 }

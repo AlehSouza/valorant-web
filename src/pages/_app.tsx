@@ -1,5 +1,6 @@
 // pages/_app.js
 import { ChakraProvider } from '@chakra-ui/react'
+import './styles.css'
 import "@fontsource/oswald"
 import "@fontsource/raleway"
 import "@fontsource/inter"
