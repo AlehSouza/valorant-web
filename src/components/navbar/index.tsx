@@ -27,7 +27,7 @@ const Index = () => {
             color: '#ff4656',
         },
         {
-            label: 'Skins',
+            label: 'Armas',
             href: '/weapons/list',
             color: '#ff4656',
         },

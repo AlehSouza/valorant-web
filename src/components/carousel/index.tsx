@@ -40,7 +40,7 @@ export default function CaptionCarousel() {
             href: '/agents',
         },
         {
-            title: 'Skins',
+            title: 'Armas',
             text: '',
             image: 'https://images6.alphacoders.com/131/1315480.jpg',
             position: 'bottom',

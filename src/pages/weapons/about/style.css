@@ -5,11 +5,6 @@
     aspect-ratio: 1 / .3;
 }
 
-.wrap-img-skin img{
-    height: 100%;
-    margin: auto;
-}
-
 .skin-name{
     font-size: 2.5em;
     color: #CED0CF;

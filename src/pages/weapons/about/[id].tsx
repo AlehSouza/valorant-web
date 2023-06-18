@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
 import { Box, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
@@ -31,9 +32,11 @@ const Index = () => {
         <Box>
             <NavBar />
             <Box
+                overflow={'hidden'}
                 className="wrap-skin"
-                p={5}
                 textAlign={'center'}
+                bgImage={selectedSkin?.wallpaper ? selectedSkin.wallpaper : 'https://imgur.com/9y2jzvv.png'}
+                p={5}
             >
                 {
                     selectedSkin &&
@@ -47,10 +50,24 @@ const Index = () => {
                         >
                             {selectedSkin?.displayName}
                         </Heading>
-                        <Box className="wrap-img-skin">
-                            <img 
-                                src={selectedSkin.displayIcon ? selectedSkin.displayIcon : '/cross-line.png'}
+                        <Box
+                            className="wrap-img-skin"
+                            justifyContent={'center'}
+                            alignItems={'center'}
+                            display={'flex'}
+                            my={20}
+                        >
+                            <img
+                                src={
+                                    selectedSkin.displayIcon 
+                                    ? selectedSkin.displayIcon 
+                                    : 'https://media.valorant-api.com/weaponskins/27f21d97-4c4b-bd1c-1f08-31830ab0be84/displayicon.png'
+                                }
                                 alt={selectedSkin.displayName}
+                                style={{
+                                    maxWidth: selectedSkin.displayIcon ? 'unset' : '120px',
+                                    maxHeight: '150px',
+                                }}
                             />
                         </Box>
                     </Box>
@@ -61,8 +78,8 @@ const Index = () => {
                         weapon?.skins &&
                         weapon?.skins.length > 0 &&
 
-                        <CarouselWeapon 
-                            skins={weapon?.skins} 
+                        <CarouselWeapon
+                            skins={weapon?.skins}
                             setSelectedSkin={setSelectedSkin}
                         />
                     }
