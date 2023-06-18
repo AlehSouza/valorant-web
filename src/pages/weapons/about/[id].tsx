@@ -65,28 +65,6 @@ const Index = () => {
                             skins={weapon?.skins} 
                             setSelectedSkin={setSelectedSkin}
                         />
-
-                        // weapon?.skins.map((skin: any) => {
-                        //     console.log(skin.displayIcon)
-                        //     return (
-                        //         <Flex
-                        //             border={'solid 1px #d5ecdd'}
-                        //             alignItems={'center'}
-                        //             // width={'15%'}
-                        //             minWidth={'unset'}
-                        //             maxWidth={'unset'}
-                        //             onClick={() => setSelectedSkin(skin)}
-                        //         >
-                        //             <Image
-                        //                 src={skin.displayIcon ? skin.displayIcon : '/cross-line.png'}
-                        //                 alt={skin.displayName}
-                        //                 width={300}
-                        //                 height={400}
-                        //             />
-                        //             <p>{skin.displayName}</p>
-                        //         </Flex>
-                        //     )
-                        // })
                     }
                 </Box>
             </Box>
