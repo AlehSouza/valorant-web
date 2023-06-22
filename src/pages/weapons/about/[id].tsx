@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { NavBar } from "@/components";
+import { Footer, NavBar } from "@/components";
 import { api } from "@/services";
 import { CarouselWeapon } from "@/components";
 import './style.css'
@@ -85,6 +85,7 @@ const Index = () => {
                     }
                 </Box>
             </Box>
+            <Footer/>
         </Box>
     )
 }
