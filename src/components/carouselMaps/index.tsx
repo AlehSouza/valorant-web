@@ -114,11 +114,15 @@ export default function CaptionCarousel(maps: any) {
                                             alignItems={'center'}
                                             display={'flex'}
                                         >
-                                            <img 
-                                                src={map.displayIcon} 
-                                                width={'400px'}
-                                                alt=""
-                                            />
+                                            <Box
+                                                width={{ base: '280px', md: '400px', lg: '400px' }}
+                                            >
+                                                <img
+                                                    src={map.displayIcon}
+                                                    width={'100%'}
+                                                    alt=""
+                                                />
+                                            </Box>
                                         </Box>
                                     </Stack>
                                 </Container>
