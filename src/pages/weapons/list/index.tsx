@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text, Spinner } from "@chakra-ui/react";
 import { Footer, NavBar } from "@/components";
 import { api } from "@/services";
 import { useRouter } from "next/navigation";
@@ -10,10 +10,11 @@ import { useRouter } from "next/navigation";
 const Index = () => {
 
     const router = useRouter()
-
+    const [loading, setLoading] = useState(false)
     const [weapons, setWeapons] = useState<any[]>()
 
     const handleGetWeapons = async () => {
+        setLoading(true)
         try {
             let { data: response } = await api.get('weapons')
             for (let i = 0; i < response.data.length; i++) {
@@ -24,6 +25,9 @@ const Index = () => {
         } catch (err) {
             console.error(err)
         }
+        setTimeout(() => {
+            setLoading(false)
+        }, 2000);
     }
 
     const handleGetDefaultSkin = async (uuid: string) => {
@@ -73,6 +77,7 @@ const Index = () => {
                     gap={4}
                 >
                     {
+                        !loading &&
                         weapons &&
                         weapons.length > 0 &&
                         weapons.map((weapon: any) => {
@@ -131,9 +136,26 @@ const Index = () => {
                             )
                         })
                     }
+                    {
+                        loading &&
+                        <Flex
+                            width={'100%'}
+                            height={'80vh'}
+                            justifyContent={'center'}
+                            alignItems={'center'}
+                        >
+                            <Spinner
+                                thickness='4px'
+                                speed='0.65s'
+                                emptyColor='gray.200'
+                                color='#ff4656'
+                                size='xl'
+                            />
+                        </Flex>
+                    }
                 </Flex>
             </Box>
-            <Footer/>
+            <Footer />
         </Box>
     )
 }

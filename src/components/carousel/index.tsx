@@ -129,9 +129,8 @@ export default function CaptionCarousel() {
                                     w={'full'}
                                     maxW={'lg'}
                                 >
-                                    <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
+                                    <Heading fontSize={{ base: '5xl', md: '7xl', lg: '9xl' }}>
                                         <Text
-                                            fontSize={'102'}
                                             fontFamily={'Oswald'}
                                             textTransform={'uppercase'}
                                             color={'#ff4656'}

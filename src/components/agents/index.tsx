@@ -8,8 +8,8 @@ const Index = () => {
 
     return (
         <Box
-            bgImage={'https://initiate.alphacoders.com/images/129/cropped-1920-1080-1292550.jpg?398'}
-            bgPos={'center'}
+            bgImage={'https://cdna.artstation.com/p/assets/images/images/050/710/554/4k/suke-fvyuupkviaanauy.jpg?1655487003'}
+            bgPos={'cover'}
             justifyContent={'flex-end'}
             position={'relative'}
             display={'flex'}

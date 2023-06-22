@@ -18,7 +18,6 @@ const Index = () => {
 
     useEffect(() => {
         handleGetSeason()
-        console.log(season)
     }, [])
 
     return (
@@ -39,20 +38,27 @@ const Index = () => {
                 season &&
                 season.uuid &&
                 <Box
-                    height={'60vh'}
+                    height={{ base: '2xl', md: '1xl', lg: '2xl' }}
                     overflow={'hidden'}
                     position={'relative'}
                     bgImage={'https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/bltec6e41768fe56f69/6402195c27ccd11087ac695a/Val_ep6a2_PlayVal_act_Overview-Art_gekko_3440x1020.jpg'}
                     bgPos={'top'}
-                    justifyContent={'flex-end'}
+                    justifyContent={'center'}
+                    alignItems={'center'}
                     display={'flex'}
                 >
                     <Flex
-                        position={'absolute'}
-                        left={'50px'}
-                        bottom={'50px'}
                         flexDirection={'column'}
                     >
+                        <Text
+                            fontSize={'20px'}
+                            bg={'#ece8e1'}
+                            px={8}
+                            my={2}
+                            color={'#ff4656'}
+                        >
+                            // SEASON // REVELAÇÃO
+                        </Text>
                         <Text
                             fontSize={'20px'}
                             bg={'#ece8e1'}

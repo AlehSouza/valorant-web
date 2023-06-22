@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
 import { api } from "@/services";
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { Box, Flex, Spinner, Text } from '@chakra-ui/react'
 import { useRouter } from "next/navigation";
 import { Footer, NavBar } from "@/components";
 import Head from "next/head";
@@ -9,13 +9,21 @@ import { translate } from "@/helpers";
 
 const Index = () => {
     const router = useRouter()
-
+    const [loading, setLoading] = useState(false)
     const [agents, setAgents] = useState<any[]>()
 
     const handleGetAgents = async () => {
-        const { data: response } = await api.get('agents?isPlayableCharacter=true')
-        const auxAgents = response.data.sort()
-        setAgents(auxAgents)
+        setLoading(true)
+        try {
+            const { data: response } = await api.get('agents?isPlayableCharacter=true')
+            const auxAgents = response.data.sort()
+            setAgents(auxAgents)
+        } catch (err) {
+            console.error(err)
+        }
+        setTimeout(() => {
+            setLoading(false)
+        }, 2000);
     }
 
     useEffect(() => {
@@ -60,6 +68,7 @@ const Index = () => {
                 gap={8}
             >
                 {
+                    !loading &&
                     agents &&
                     agents.length > 0 &&
                     agents.map((agent) => {
@@ -146,9 +155,26 @@ const Index = () => {
                         )
                     })
                 }
+                {
+                    loading &&
+                    <Flex
+                        width={'100%'}
+                        height={'80vh'}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                    >
+                        <Spinner
+                            thickness='4px'
+                            speed='0.65s'
+                            emptyColor='gray.200'
+                            color='#ff4656'
+                            size='xl'
+                        />
+                    </Flex>
+                }
             </Flex>
 
-            <Footer/>
+            <Footer />
         </Box>
     )
 }
