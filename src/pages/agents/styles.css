@@ -1,0 +1,9 @@
+.agent {
+    filter: grayscale(100%);
+}
+
+.agent:hover {
+    filter: grayscale(0%);
+    transition: 0.5s;
+    margin-top: -50px;
+}
