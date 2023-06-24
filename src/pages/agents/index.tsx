@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Footer, NavBar } from "@/components";
 import Head from "next/head";
 import { translate } from "@/helpers";
+import './styles.css'
 
 const Index = () => {
     const router = useRouter()
@@ -74,42 +75,38 @@ const Index = () => {
                     agents.map((agent) => {
                         return (
                             <Flex
-                                width={250}
-                                height={400}
-                                overflow={'hidden'}
+                                key={agent.uuid}
                                 bg={'#0a141ecc'}
                                 bgImage={agent.background}
                                 bgSize={'cover'}
                                 bgPos={'center'}
-                                key={agent.uuid}
+                                width={250}
+                                height={400}
+                                overflow={'hidden'}
+                                className="trigger"
                                 borderRadius={4}
                                 borderWidth={1}
                                 borderColor={'#ff4656'}
                                 justifyContent={'center'}
                                 alignItems={'flex-start'}
                                 position={'relative'}
+                                style={{
+                                    cursor: 'pointer',
+                                }}
                                 _hover={{
                                     borderWidth: 3,
-                                    bg: '#0a141ecc',
-                                    bgImage: agent.background,
-                                    bgPos: 'center',
-                                    img: {
-                                        transition: '0.5s',
-                                        marginTop: '-50px'
-                                    }
+                                    backgroundColor: '#0a141ecc',
+                                    backgroundPosition: 'center',
                                 }}
-                                style={{
-                                    cursor: 'pointer'
-                                }}
-                                onClick={
-                                    () => router.push(`/agent/${agent.uuid}`)
-                                }
+                                onClick={() => router.push(`/agent/${agent.uuid}`)}
                             >
                                 <img
                                     src={agent.fullPortrait}
                                     alt={agent.displayName}
                                     width={'350%'}
+                                    className="agent"
                                     style={{
+                                        transition: '0.5s',
                                         backgroundPosition: '0px -1000px',
                                         maxWidth: 'unset',
                                     }}
