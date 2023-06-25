@@ -6,7 +6,7 @@ import { Box, Button, Flex, Input, Select, Spinner, Text, useDisclosure } from '
 import { Footer, NavBar, Modal } from '@/components'
 import { api } from '@/services'
 import removeTitle from '@/helpers/parseTitles'
-import wallpapers from '@/utils/wallpapers'
+import domtoimage from 'dom-to-image';
 
 const Index = () => {
     const {
@@ -27,10 +27,17 @@ const Index = () => {
         onClose: onCloseWallpaper
     } = useDisclosure()
 
+    const {
+        isOpen: isOpenShare,
+        onOpen: onOpenShare,
+        onClose: onCloseShare
+    } = useDisclosure()
+
     const [loadingCards, setLoadingCards] = useState(false)
     const [loadingElo, setLoadingElo] = useState(false)
 
     const [wallpaper, setWallpaper] = useState('')
+    const [wallpapers, setWallpapers] = useState<any>()
 
     const [cards, setCards] = useState<any>()
     const [banner, setBanner] = useState<any>()
@@ -87,13 +94,77 @@ const Index = () => {
         }
     }
 
-    const handleRandomWallpaper = () => {
+    const handleGetWallpapers = async () => {
+        let auxWallpapers = []
+        try {
+            const { data: response } = await api.get('weapons/9c82e19d-4575-0200-1a81-3eacf00cf872')
+            for (let i = 0; i < response.data.skins.length; i++) {
+                if (response.data.skins[i].wallpaper != null) {
+                    auxWallpapers.push(response.data.skins[i].wallpaper)
+                }
+            }
+            setWallpapers(auxWallpapers)
+        } catch (err) {
+            console.error(err)
+        }
+        var randomIndex = Math.floor(Math.random() * auxWallpapers.length);
+        setWallpaper(auxWallpapers[randomIndex])
+    }
+
+    const handleGenerateRandom = () => {
+        // Banner
+        var randomIndex = Math.floor(Math.random() * cards.length);
+        setBanner(cards[randomIndex].largeArt)
+        // Tier
+        do {
+            var randomIndex = Math.floor(Math.random() * tiers.length);
+            if (tiers[randomIndex].tierName.startsWith("Unused")) {
+                continue
+            }
+            break
+        } while (true)
+        setTier(tiers[randomIndex].largeIcon)
+        // Title
+        var randomIndex = Math.floor(Math.random() * titles.length);
+        setTitle(removeTitle(titles[randomIndex].displayName))
+        // Wallpaper
         var randomIndex = Math.floor(Math.random() * wallpapers.length);
-        setWallpaper(wallpapers[randomIndex].url)
+        setWallpaper(wallpapers[randomIndex])
+    }
+
+    const handleClipImage = () => {
+        domtoimage.toPng(document.getElementById('canva'))
+            .then((dataUrl: any) => {
+                navigator.clipboard.writeText(dataUrl).then(function () {
+                    var link = document.createElement('a');
+                    link.href = URL.createObjectURL(dataUrlToBlob(dataUrl));
+                    link.download = 'Banner';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }).catch(function (error) {
+                    console.error('Erro ao salvar a imagem na área de transferência:', error)
+                })
+            })
+            .catch((err: any) => {
+                console.error('Erro ao capturar a div como uma imagem:', err)
+            })
+    }
+
+    const dataUrlToBlob = (dataUrl: any) => {
+        var arr = dataUrl.split(',');
+        var mime = arr[0].match(/:(.*?);/)[1];
+        var bstr = atob(arr[1]);
+        var n = bstr.length;
+        var u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], { type: mime });
     }
 
     useEffect(() => {
-        handleRandomWallpaper()
+        handleGetWallpapers()
         handleGetCards()
         handleGetTiers()
         handleGetTitles()
@@ -237,24 +308,28 @@ const Index = () => {
                     mb={5}
                 >
                     {
-                        wallpapers.map((wallpaper) => {
+                        wallpapers &&
+                        wallpapers.length > 0 &&
+                        wallpapers.map((wallpp: any) => {
                             return (
                                 <Box
-                                    key={wallpaper.uuid}
-                                    bgImage={wallpaper.url}
+                                    key={wallpp}
+                                    bgImage={wallpp}
                                     bgPos={'center'}
                                     borderRadius={'8px'}
                                     overflow={'hidden'}
+                                    minH={'200px'}
                                     style={{
                                         cursor: 'pointer'
                                     }}
                                     onClick={() => {
                                         onCloseWallpaper()
-                                        setWallpaper(wallpaper.url)
+                                        setWallpaper(wallpp)
                                     }}
                                 >
                                     <Box
                                         bgColor={'rgba(0,0,0,0.5)'}
+                                        minH={'100%'}
                                         flexDirection={'column'}
                                         display={'flex'}
                                         p={'12px'}
@@ -263,28 +338,6 @@ const Index = () => {
                                             bgColor: 'rgba(0,0,0,0.7)',
                                         }}
                                     >
-                                        <Text fontSize={'32px'}>{wallpaper.name}</Text>
-                                        <Box
-                                            display={'flex'}
-                                            gap={4}
-                                        >
-                                            {
-                                                wallpaper.tags.map((tag, index) => {
-                                                    return (
-                                                        <Box
-                                                            key={index}
-                                                            border={'1px solid white'}
-                                                            p={1}
-                                                            borderRadius={'8px'}
-                                                        >
-                                                            <Text textTransform={'capitalize'}>
-                                                                {tag}
-                                                            </Text>
-                                                        </Box>
-                                                    )
-                                                })
-                                            }
-                                        </Box>
                                     </Box>
                                 </Box>
                             )
@@ -296,17 +349,59 @@ const Index = () => {
         )
     }
 
+    const ModalShare = () => {
+        return (
+            <Modal title="Compartilhar" isOpen={isOpenShare} onClose={onCloseShare} size={'sm'}>
+                <Box
+                    justifyContent={'space-between'}
+                    alignItems={'center'}
+                    display={'flex'}
+                >
+                    <Flex
+                        width={'100%'}
+                        borderBottom={'1px'}
+                        borderLeft={'1px'}
+                        borderColor={'#ece8e1'}
+                    >
+                        <Button
+                            width={'100%'}
+                            bg={'#ece8e1'}
+                            mb={2}
+                            ml={2}
+                            color={'#0f1923'}
+                            borderRadius={'0px'}
+                            onClick={() => {
+                                handleClipImage()
+                                onCloseShare()
+                            }}
+                            _hover={{
+                                bg: '#ff4656',
+                                color: 'white'
+                            }}
+                        >
+                            <Text>
+                                Baixar
+                            </Text>
+                        </Button>
+                    </Flex>
+                </Box>
+            </Modal>
+        )
+    }
+
     return (
-        <Box>
+        <Box bg={'black'}>
             <Head>
                 <title>Valorant - Gerador</title>
             </Head>
             <ModalWallpapers />
             <ModalBanners />
             <ModalElos />
+            <ModalShare />
             <NavBar />
-            <Box position={'relative'}>
+            <Box position={'relative'} bg={'rgba(0,0,0,1)'}>
                 <Box
+                    id="canva"
                     h={'90vh'}
                     bgImage={wallpaper}
                     bgPos={'center'}
@@ -368,14 +463,15 @@ const Index = () => {
                 <Box
                     m={5}
                     p={5}
-                    minWidth={'500px'}
+                    minWidth={'200px'}
                     border={'1px solid #ff4656'}
                     flexDir={'column'}
                     display={'flex'}
                     position={'absolute'}
+                    bg={'#171923'}
                     gap={4}
                     left={5}
-                    top={5}
+                    bottom={5}
                 >
                     <Text>
                         Digite seu nickname
@@ -488,7 +584,34 @@ const Index = () => {
                             </Text>
                         </Button>
                     </Flex>
-                    {/* <Flex
+                    <Flex
+                        borderBottom={'1px'}
+                        borderLeft={'1px'}
+                        borderColor={'#ece8e1'}
+                    >
+                        <Button
+                            width={'100%'}
+                            bg={'#ff4656'}
+                            mb={2}
+                            ml={2}
+                            color={'#0f1923'}
+                            borderRadius={'0px'}
+                            onClick={() => handleGenerateRandom()}
+                            _hover={{
+                                bg: 'linear-gradient(#1347e3, #1ba9d4)',
+                                color: '#0f1923'
+                            }}
+                        >
+                            <Text
+                                _hover={{
+                                    color: '#0f1923'
+                                }}
+                            >
+                                Gerar Aleatório
+                            </Text>
+                        </Button>
+                    </Flex>
+                    <Flex
                         borderBottom={'1px'}
                         borderLeft={'1px'}
                         borderColor={'#ece8e1'}
@@ -500,7 +623,7 @@ const Index = () => {
                             ml={2}
                             color={'#0f1923'}
                             borderRadius={'0px'}
-                            onClick={() => alert('Estamos trabalhando nisso! em breve estará disponível')}
+                            onClick={() => onOpenShare()}
                             _hover={{
                                 bg: '#ff4656',
                                 color: '#0f1923'
@@ -514,7 +637,7 @@ const Index = () => {
                                 Compartilhar
                             </Text>
                         </Button>
-                    </Flex> */}
+                    </Flex>
                 </Box>
             </Box>
             <Footer />
