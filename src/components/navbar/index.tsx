@@ -32,6 +32,11 @@ const Index = () => {
             color: '#ff4656',
         },
         {
+            label: 'Banner',
+            href: '/generator',
+            color: '#ff4656',
+        },
+        {
             label: 'Mercado Noturno',
             href: '/night-market',
             color: '',
