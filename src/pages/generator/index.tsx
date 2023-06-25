@@ -27,8 +27,7 @@ const Index = () => {
         onClose: onCloseWallpaper
     } = useDisclosure()
 
-    const [loading, setLoading] = useState(false)
-    const [loadingBanner, setLoadingBanner] = useState(false)
+    const [loadingCards, setLoadingCards] = useState(false)
     const [loadingElo, setLoadingElo] = useState(false)
 
     const [wallpaper, setWallpaper] = useState('')
@@ -45,7 +44,7 @@ const Index = () => {
     const [nickname, setNickname] = useState('Ale')
 
     const handleGetCards = async () => {
-        setLoadingBanner(true)
+        setLoadingCards(true)
         try {
             const { data: response } = await api.get('playercards')
             setCards(response.data)
@@ -54,7 +53,7 @@ const Index = () => {
         } catch (err) {
             console.error(err)
         }
-        setLoadingBanner(false)
+        setLoadingCards(false)
     }
 
     const handleGetTiers = async () => {
@@ -113,6 +112,7 @@ const Index = () => {
                     gap={1}
                 >
                     {
+                        !loadingCards &&
                         cards &&
                         cards.length > 0 &&
                         cards.map((card: any) => {
@@ -133,6 +133,23 @@ const Index = () => {
                                 </Box>
                             )
                         })
+                    }
+                    {
+                        loadingCards &&
+                        <Flex
+                            width={'100%'}
+                            height={'100%'}
+                            justifyContent={'center'}
+                            alignItems={'center'}
+                        >
+                            <Spinner
+                                thickness='4px'
+                                speed='0.65s'
+                                emptyColor='gray.200'
+                                color='#ff4656'
+                                size='xl'
+                            />
+                        </Flex>
                     }
                 </Box>
             </Modal>
