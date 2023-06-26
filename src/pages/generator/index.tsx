@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+
 import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import './styles.css'
@@ -6,6 +7,7 @@ import { Box, Button, Flex, Input, Select, Spinner, Text, useDisclosure } from '
 import { Footer, NavBar, Modal } from '@/components'
 import { api } from '@/services'
 import removeTitle from '@/helpers/parseTitles'
+// @ts-ignore
 import domtoimage from 'dom-to-image';
 
 const Index = () => {
