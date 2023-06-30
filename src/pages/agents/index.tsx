@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
+import Head from "next/head";
 import { api } from "@/services";
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react'
 import { useRouter } from "next/navigation";
 import { Footer, NavBar } from "@/components";
-import Head from "next/head";
 import { translate } from "@/helpers";
 import './styles.css'
 

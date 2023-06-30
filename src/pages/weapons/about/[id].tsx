@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
+import Head from "next/head";
 import { Box, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Footer, NavBar } from "@/components";
@@ -30,12 +31,16 @@ const Index = () => {
 
     return (
         <Box>
+            <Head>
+                <title>Valorant - { selectedSkin && selectedSkin.displayName}</title>
+            </Head>
             <NavBar />
             <Box
                 overflow={'hidden'}
                 className="wrap-skin"
                 textAlign={'center'}
                 bgImage={selectedSkin?.wallpaper ? selectedSkin.wallpaper : 'https://imgur.com/9y2jzvv.png'}
+                bgSize={'cover'}
                 p={5}
             >
                 {

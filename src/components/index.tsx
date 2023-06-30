@@ -1,5 +1,6 @@
 import NavBar from './navbar'
 import Carousel from './carousel'
+import CarouselBuddies from './carouselBuddies'
 import CarouselWeapon from './carouselWeapon'
 import CarouselMaps from './carouselMaps'
 import Modal from './modal'
@@ -11,6 +12,7 @@ import Developing from './developing'
 export {
     NavBar,
     Carousel,
+    CarouselBuddies,
     CarouselWeapon,
     CarouselMaps,
     Season,

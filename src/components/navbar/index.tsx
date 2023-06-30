@@ -27,6 +27,16 @@ const Index = () => {
             color: '#ff4656',
         },
         {
+            label: 'Chaveiros',
+            href: '/buddies',
+            color: '#ff4656',
+        },
+        {
+            label: 'Pacotes',
+            href: '/bundles',
+            color: '#ff4656',
+        },
+        {
             label: 'Armas',
             href: '/weapons/list',
             color: '#ff4656',
@@ -36,11 +46,11 @@ const Index = () => {
             href: '/generator',
             color: '#ff4656',
         },
-        {
-            label: 'Mercado Noturno',
-            href: '/night-market',
-            color: '',
-        }
+        // {
+        //     label: 'Mercado Noturno',
+        //     href: '/night-market',
+        //     color: '',
+        // }
     ]
 
 

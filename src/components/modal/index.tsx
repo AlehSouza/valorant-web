@@ -23,7 +23,7 @@ function Index({ onClose, isOpen, title, children, size = 'md' }: IModal) {
             <Modal onClose={onClose} isOpen={isOpen} size={size} isCentered>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>{title && title}</ModalHeader>
+                    <ModalHeader style={{ letterSpacing: '1px' }}>{title && title}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>{children}</ModalBody>
                 </ModalContent>
