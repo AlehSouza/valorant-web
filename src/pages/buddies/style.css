@@ -1,0 +1,22 @@
+@media screen and (max-width: 800px) {
+    #buddies .wrap-img-skin{
+        margin: 3em auto;
+    }
+
+    #buddies.wrap-skin{ 
+        height: 85vh;
+    }
+
+    #buddies .mask{
+        width: initial;
+    }
+
+    .skin-name {
+        padding: 0 1em;
+        height: 2.5em;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        max-width: 100vw;
+    }
+}
