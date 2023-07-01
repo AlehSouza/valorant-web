@@ -21,7 +21,7 @@ const Index = ({ buddies, setSelectedBuddies }: IProps) => {
     useEffect(() => {
         const screenWidth = window.innerWidth;
 
-        if (screenWidth <= 768) setItemsPerPage(4);
+        if (screenWidth <= 768) setItemsPerPage(5);
         else if (screenWidth <= 1024) setItemsPerPage(10);
         else setItemsPerPage(13);
     }, []);

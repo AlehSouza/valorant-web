@@ -6,6 +6,9 @@ import { api } from "@/services"
 import { Box, Heading } from "@chakra-ui/react"
 import { useRouter } from "next/router"
 
+import '../weapons/about/style.css'
+import './style.css'
+
 const Index = () => {
     const router = useRouter()
     const [buddies, setBuddies] = useState<any>()
@@ -40,6 +43,9 @@ const Index = () => {
                 flexDirection={'column'}
                 alignItems={'center'}
                 display={'flex'}
+                overflow={'hidden'}
+                className="wrap-skin"
+                id="buddies"
             >
                 <Box
                     backgroundColor={'rgba(0, 0, 0, 0.8)'}
@@ -50,6 +56,7 @@ const Index = () => {
                     flexDirection={'column'}
                     alignItems={'center'}
                     display={'flex'}
+                    className="mask"
                 >
                     {
                         selectBuddie &&
