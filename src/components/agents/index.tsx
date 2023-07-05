@@ -8,6 +8,7 @@ const Index = () => {
 
     return (
         <Box
+            height={{ base: '2xl', md: '1xl', lg: '2xl' }}
             bgImage={'https://cdna.artstation.com/p/assets/images/images/050/710/554/4k/suke-fvyuupkviaanauy.jpg?1655487003'}
             bgPos={'cover'}
             justifyContent={'flex-end'}

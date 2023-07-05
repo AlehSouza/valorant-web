@@ -35,7 +35,7 @@ const Index = () => {
             </Head>
             <NavBar />
             <Box
-                minH={'85vh'}
+                minH={'100vh'}
                 bgImage={'https://images5.alphacoders.com/130/1300312.jpg'}
                 bgSize={'cover'}
                 bgPos={'center'}
@@ -44,14 +44,13 @@ const Index = () => {
                 alignItems={'center'}
                 display={'flex'}
                 overflow={'hidden'}
-                className="wrap-skin"
                 id="buddies"
             >
                 <Box
                     backgroundColor={'rgba(0, 0, 0, 0.8)'}
                     p={'20px 40px'}
                     width={'100%'}
-                    minH={'85vh'}
+                    minH={'100vh'}
                     justifyContent={'center'}
                     flexDirection={'column'}
                     alignItems={'center'}

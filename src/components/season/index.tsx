@@ -22,7 +22,7 @@ const Index = () => {
 
     return (
         <Box>
-            <Flex
+            {/* <Flex
                 justifyContent={'center'}
                 alignItems={'center'}
                 p={8}
@@ -33,7 +33,7 @@ const Index = () => {
                     alt="" 
                     width={'400px'}
                 />
-            </Flex>
+            </Flex> */}
             {
                 season &&
                 season.uuid &&

@@ -33,6 +33,13 @@ export default function CaptionCarousel() {
 
     const cards = [
         {
+            title: 'Banner',
+            text: '',
+            image: 'https://images.alphacoders.com/128/1282618.jpg',
+            position: 'center',
+            href: '/generator',
+        },
+        {
             title: 'Agentes',
             text: '',
             image: 'https://images7.alphacoders.com/131/1315738.jpg',
@@ -52,6 +59,20 @@ export default function CaptionCarousel() {
             image: 'https://images4.alphacoders.com/130/1305421.jpg',
             position: 'top',
             href: '/maps',
+        },
+        {
+            title: 'Chaveiros',
+            text: '',
+            image: 'https://images5.alphacoders.com/129/1293103.jpg',
+            position: 'center',
+            href: '/buddies',
+        },
+        {
+            title: 'Pacotes',
+            text: '',
+            image: 'https://media.valorant-api.com/bundles/e10e00ae-4dcc-3c4a-16f7-7e885314f0d0/displayicon.png',
+            position: 'top',
+            href: '/bundles',
         },
     ];
 
@@ -119,7 +140,7 @@ export default function CaptionCarousel() {
                                 display={'flex'}
                                 alignItems={'center'}
                                 onClick={() => navigateTo(card.href)}
-                                style={{ 
+                                style={{
                                     zIndex: 1,
                                     cursor: 'pointer'
                                 }}
@@ -129,7 +150,7 @@ export default function CaptionCarousel() {
                                     w={'full'}
                                     maxW={'lg'}
                                 >
-                                    <Heading fontSize={{ base: '5xl', md: '7xl', lg: '9xl' }}>
+                                    <Heading fontSize={{ base: '4xl', md: '6xl', lg: '8xl' }}>
                                         <Text
                                             fontFamily={'Oswald'}
                                             textTransform={'uppercase'}
