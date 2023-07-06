@@ -331,7 +331,7 @@ const Index = () => {
                                 >
                                     <Box
                                         bgColor={'rgba(0,0,0,0.5)'}
-                                        minH={'100%'}
+                                        minH={'200px'}
                                         flexDirection={'column'}
                                         display={'flex'}
                                         p={'12px'}
