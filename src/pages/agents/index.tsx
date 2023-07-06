@@ -22,9 +22,7 @@ const Index = () => {
         } catch (err) {
             console.error(err)
         }
-        setTimeout(() => {
-            setLoading(false)
-        }, 2000);
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -98,7 +96,7 @@ const Index = () => {
                                     backgroundColor: '#0a141ecc',
                                     backgroundPosition: 'center',
                                 }}
-                                onClick={() => router.push(`/agent/${agent.uuid}`)}
+                                onClick={() => router.push(`/agents/about/${agent.uuid}`)}
                             >
                                 <img
                                     src={agent.fullPortrait}

@@ -3,7 +3,11 @@ import { Box, Text, Flex, Button } from "@chakra-ui/react"
 import React from "react"
 import { useRouter } from "next/navigation"
 
-const Index = () => {
+type IProps = {
+    label?: string
+}
+
+const Index = ({ label = 'SEUS AGENTES' }: IProps) => {
     const router = useRouter()
 
     return (
@@ -29,14 +33,30 @@ const Index = () => {
                         fontSize={'80px'}
                         fontWeight={'bold'}
                     >
-                        SEUS AGENTES
+                        {label}
                     </Text>
-                    <Text py={5}>
-                        A CRIATIVIDADE É SUA MELHOR ARMA.
-                    </Text>
-                    <Text>
-                        Mais do que armas e munição, VALORANT inclui agentes com habilidades adaptativas, rápidas e letais, que criam oportunidades para você exibir sua mecânica de tiro. Cada Agente é único, assim como os momentos de destaque de cada partida!
-                    </Text>
+                    {
+                        label == 'SEUS AGENTES' &&
+                        <>
+                            <Text py={5}>
+                                A CRIATIVIDADE É SUA MELHOR ARMA.
+                            </Text>
+                            <Text>
+                                Mais do que armas e munição, VALORANT inclui agentes com habilidades adaptativas, rápidas e letais, que criam oportunidades para você exibir sua mecânica de tiro. Cada Agente é único, assim como os momentos de destaque de cada partida!
+                            </Text>
+                        </>
+                    }
+                    {
+                        label !== 'SEUS AGENTES' &&
+                        <>
+                            <Text py={5}>
+                                VEJA MAIS AGENTES AGORA MESMO
+                            </Text>
+                            <Text>
+                                Aprofunde-se no universo de Valorant e conheça mais sobre cada agente.
+                            </Text>
+                        </>
+                    }
                     <Flex
                         mt={7}
                         width={'215px'}

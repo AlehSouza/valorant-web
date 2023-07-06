@@ -99,7 +99,6 @@ const Index = () => {
                 gap={4}
                 className="nav-items"
             >
-
                 {
                     navigation.map((nav, index) => {
                         return (
