@@ -16,7 +16,7 @@ export default function Index() {
       <Season />
       <Flex
         width={'100%'}
-        flexWrap={{base: 'nowrap', sm: 'wrap', md: 'wrap', lg: 'nowrap' }}
+        flexWrap={{base: 'wrap', sm: 'wrap', md: 'wrap', lg: 'nowrap' }}
       >
         <Buddies />
         <Bundles />
