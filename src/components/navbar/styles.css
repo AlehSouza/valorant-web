@@ -1,5 +1,5 @@
-.black-market {
-    background: -webkit-linear-gradient(#1347e3, #1ba9d4);
+.about {
+    background: -webkit-linear-gradient(#f7262d, #d41b77);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -53,7 +53,7 @@
     background: transparent !important;
 }
 
-@media screen and (max-width: 840px) {
+@media screen and (max-width: 920px) {
 
     .btn-menu, .hamburguer, #menu{ 
         display: block;

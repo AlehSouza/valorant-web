@@ -46,11 +46,11 @@ const Index = () => {
             href: '/generator',
             color: '#ff4656',
         },
-        // {
-        //     label: 'Mercado Noturno',
-        //     href: '/night-market',
-        //     color: '',
-        // }
+        {
+            label: 'Sobre',
+            href: '/about',
+            color: '',
+        }
     ]
 
 
@@ -112,7 +112,7 @@ const Index = () => {
                                 }
                             >
                                 <Text
-                                    className={nav.label === 'Mercado Noturno' ? 'black-market' : ''}
+                                    className={nav.label === 'Sobre' ? 'about' : ''}
                                     fontWeight={'500'}
                                     textTransform={'uppercase'}
                                     color={pathname === nav.href ? nav.color : ''}
