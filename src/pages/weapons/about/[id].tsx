@@ -13,11 +13,27 @@ const Index = () => {
     const { id } = router.query
     const [weapon, setWeapon] = useState<any>()
     const [selectedSkin, setSelectedSkin] = useState<any>()
+    
+    const wordsBlackList = ['Standard', 'Random'];
 
     const handleGetWeapon = async (id: any) => {
         try {
             const { data: response } = await api.get(`weapons/${id}`)
-            setWeapon(response.data)
+            let weaponToFilter = response.data;
+            weaponToFilter.skins = weaponToFilter.skins.map((skin: any) => {
+                const hasBlackListWord = !wordsBlackList.filter(word => skin.displayName.includes(word))?.length;
+                
+                if(!hasBlackListWord) {
+                    return;
+                }
+
+                if(!skin.displayIcon) {
+                    skin.displayIcon = skin?.levels[0]?.displayIcon;
+                }
+
+                return skin;
+            }).filter((item: any) => !!item);
+            setWeapon(weaponToFilter);
             !selectedSkin && setSelectedSkin(response.data.skins[0])
         } catch (err) {
             console.error(err)
