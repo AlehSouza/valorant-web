@@ -12,7 +12,7 @@ const theme = extendTheme({
   styles: {
     global: (props: StyleFunctionProps) => ({
       body: {
-        backgroundColor: useColorModeValue( '#f1f3f5', '#0c0d0e'),
+        backgroundColor:'#0c0d0e',
         text:  useColorModeValue( '#0c0d0e', '#f1f3f5'),
         scrollBehavior: "smooth",
       },
