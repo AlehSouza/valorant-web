@@ -32,7 +32,7 @@ const Index = () => {
     return (
         <Box>
             <Head>
-                <title>Valorant - { selectedSkin && selectedSkin.displayName}</title>
+                <title>Valorant - {selectedSkin && selectedSkin.displayName}</title>
             </Head>
             <NavBar />
             <Box
@@ -64,9 +64,9 @@ const Index = () => {
                         >
                             <img
                                 src={
-                                    selectedSkin.displayIcon 
-                                    ? selectedSkin.displayIcon 
-                                    : 'https://media.valorant-api.com/weaponskins/27f21d97-4c4b-bd1c-1f08-31830ab0be84/displayicon.png'
+                                    selectedSkin.displayIcon
+                                        ? selectedSkin.displayIcon
+                                        : 'https://media.valorant-api.com/weaponskins/27f21d97-4c4b-bd1c-1f08-31830ab0be84/displayicon.png'
                                 }
                                 alt={selectedSkin.displayName}
                                 style={{
@@ -90,7 +90,7 @@ const Index = () => {
                     }
                 </Box>
             </Box>
-            <Footer/>
+            <Footer />
         </Box>
     )
 }
