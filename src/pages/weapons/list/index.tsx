@@ -83,7 +83,12 @@ const weapons = [
         "defaultSkin": "https://media.valorant-api.com/weaponskinchromas/0f934388-418a-a9e7-42a7-21b27402e46c/fullrender.png"
     },
     {
-        "uuid": "c4883e50-4494-202c-3ec3-6b8a9284f00b",
+        "uuid": "5f0aaf7a-4289-3998-d5ff-eb9a5cf7ef5c",
+        "displayName": "Outlaw",
+        "defaultSkin": "https://media.valorant-api.com/weapons/5f0aaf7a-4289-3998-d5ff-eb9a5cf7ef5c/displayicon.png"
+    },
+    {
+        "uuid": "5f0aaf7a-4289-3998-d5ff-eb9a5cf7ef5c",
         "displayName": "Marshal",
         "defaultSkin": "https://media.valorant-api.com/weaponskinchromas/1afec971-4170-f29b-1c94-07a0eff270ab/fullrender.png"
     },

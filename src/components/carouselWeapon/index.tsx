@@ -34,9 +34,16 @@ const WeaponCarousel = (props: { skins: any, setSelectedSkin: any }) => {
   };
 
   const visibleItems = [];
-  for (let i = 0; i < itemsPerPage; i++) {
-    const itemIndex = (selectedCard + i - middleIndex + totalItems) % totalItems;
-    visibleItems.push(props.skins[itemIndex]);
+
+  if (props.skins.length <= itemsPerPage) {
+    for (let i = 0; i < props.skins.length; i++) {
+      visibleItems.push(props.skins[i]);
+    }
+  } else {
+    for (let i = 0; i < itemsPerPage; i++) {
+      const itemIndex = (selectedCard + i - middleIndex + totalItems) % totalItems;
+      visibleItems.push(props.skins[itemIndex]);
+    }
   }
 
   return (
@@ -85,7 +92,7 @@ const WeaponCarousel = (props: { skins: any, setSelectedSkin: any }) => {
                   alt={item.displayName}
                   width={280}
                   height={280}
-                  style={{ 
+                  style={{
                     maxWidth: 'unset',
                   }}
                 />

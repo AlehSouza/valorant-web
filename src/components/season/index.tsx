@@ -22,18 +22,6 @@ const Index = () => {
 
     return (
         <Box>
-            {/* <Flex
-                justifyContent={'center'}
-                alignItems={'center'}
-                p={8}
-                my={2}
-            >
-                <img 
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Valorant_pink_version_logo.svg/2560px-Valorant_pink_version_logo.svg.png" 
-                    alt="" 
-                    width={'400px'}
-                />
-            </Flex> */}
             {
                 season &&
                 season.uuid &&
@@ -41,7 +29,7 @@ const Index = () => {
                     height={{ base: '2xl', md: '1xl', lg: '2xl' }}
                     overflow={'hidden'}
                     position={'relative'}
-                    bgImage={'https://images.contentstack.io/v3/assets/bltb6530b271fddd0b1/blt09716309fd22ae37/6494e204e1e2cd0147310776/Ep7_Act_Overview_Art_3440x1020_v3.jpg'}
+                    bgImage={'https://pbs.twimg.com/media/GJcn6vUXUAEwtsZ.jpg:large'}
                     bgPos={'top'}
                     justifyContent={'center'}
                     alignItems={'center'}

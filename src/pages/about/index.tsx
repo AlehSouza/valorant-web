@@ -43,7 +43,7 @@ const Index = () => {
                         border='8px solid #ff4656'
                         overflow={'hidden'}
                     >
-                        <img src="https://media.licdn.com/dms/image/D4D03AQHhmcQ0HfUPVQ/profile-displayphoto-shrink_800_800/0/1680396598292?e=1694044800&v=beta&t=_1HCT1HaN57ZjBV8uf5doZgvkZuC02KtTG9B9aQZGWg" alt="" />
+                        <img src="https://media.licdn.com/dms/image/D4D03AQHhmcQ0HfUPVQ/profile-displayphoto-shrink_800_800/0/1680396600512?e=1718841600&v=beta&t=_bMQwzOvOUYJVdWYiI-bB93qk2rB3k4LSfzHQO-2T64" alt="" />
                     </Box>
                     <Text fontSize={'28px'} p={'12px'}>Alexandre Souza</Text>
                     <Text fontSize={'18px'}>Front End Developer</Text>
@@ -75,7 +75,7 @@ const Index = () => {
                         border='8px solid #ff4656'
                         overflow={'hidden'}
                     >
-                        <img src="https://media.licdn.com/dms/image/C4D03AQH0K04LvF44oQ/profile-displayphoto-shrink_800_800/0/1640135987676?e=1694044800&v=beta&t=TIJyhPLzvzul8WqxQj8uKoNaziGWziQJPh7cQhFAOZs" alt="" />
+                        <img src="https://media.licdn.com/dms/image/C4D03AQH0K04LvF44oQ/profile-displayphoto-shrink_800_800/0/1640135988150?e=1718841600&v=beta&t=enqfsqEup1s7EzA8aH3MhAy4x7b4TuSN8Y5QyPd40uM" alt="" />
                     </Box>
                     <Text fontSize={'28px'} p={'12px'}>Mariana Santos</Text>
                     <Text fontSize={'18px'}>Front End Developer</Text>
