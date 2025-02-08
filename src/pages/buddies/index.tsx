@@ -110,6 +110,25 @@ const Index = () => {
                     </Box>
                 </Box>
             }
+            {
+                loading &&
+                <Flex
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    margin={'auto'}
+                    minHeight={'90vh'}
+                    width={'100%'}
+                    height={'100%'}
+                >
+                    <Spinner
+                        thickness='4px'
+                        speed='0.65s'
+                        emptyColor='gray.200'
+                        color='#ff4656'
+                        size='xl'
+                    />
+                </Flex>
+            }
             <Footer />
         </Box>
     )
