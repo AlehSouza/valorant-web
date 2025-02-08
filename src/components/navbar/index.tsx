@@ -124,8 +124,6 @@ const Index = () => {
                     })
                 }
             </Flex>
-
-            {/* <Box className="space" /> */}
         </Flex>
     )
 }

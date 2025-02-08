@@ -4,7 +4,7 @@ import Head from "next/head";
 import { api } from "@/services";
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react'
 import { useRouter } from "next/navigation";
-import { Footer, NavBar } from "@/components";
+import { Footer, NavBar, Search } from "@/components";
 import { translate } from "@/helpers";
 import './styles.css'
 
@@ -12,6 +12,7 @@ const Index = () => {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [agents, setAgents] = useState<any[]>()
+    const [agentsFiltered, setAgentsFiltered] = useState<any[]>()
 
     const handleGetAgents = async () => {
         setLoading(true)
@@ -19,6 +20,7 @@ const Index = () => {
             const { data: response } = await api.get('agents?isPlayableCharacter=true')
             const auxAgents = response.data.sort()
             setAgents(auxAgents)
+            setAgentsFiltered(auxAgents)
         } catch (err) {
             console.error(err)
         }
@@ -56,10 +58,18 @@ const Index = () => {
                 </Text>
             </Box>
 
+            <Search
+                genericUpdate={setAgentsFiltered}
+                genericData={agents}
+                placeholder={'Busque por nome do seu Agente'}
+                maxLength={100}
+            />
+
             <Flex
                 justifyContent={'center'}
                 flexWrap={'wrap'}
                 width={'100%'}
+                minH={'60vh'}
                 marginRight={'auto'}
                 marginLeft={'auto'}
                 px={30}
@@ -68,9 +78,9 @@ const Index = () => {
             >
                 {
                     !loading &&
-                    agents &&
-                    agents.length > 0 &&
-                    agents.map((agent) => {
+                    agentsFiltered &&
+                    agentsFiltered.length > 0 &&
+                    agentsFiltered.map((agent) => {
                         return (
                             <Flex
                                 key={agent.uuid}
@@ -149,6 +159,24 @@ const Index = () => {
                             </Flex>
                         )
                     })
+                }
+                {
+                    !loading &&
+                    agentsFiltered &&
+                    agentsFiltered.length === 0 &&
+                    <Flex
+                        width={'100%'}
+                        minH={'60vh'}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                    >
+                        <Text
+                            fontSize={'20px'}
+                            color={'#ff4656'}
+                        >
+                            Não encontramos nada por aqui...
+                        </Text>
+                    </Flex>
                 }
                 {
                     loading &&

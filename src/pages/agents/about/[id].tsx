@@ -213,15 +213,16 @@ const Index = () => {
                                 Habilidades
                             </Text>
                             <Box
-                                flexWrap={{ base: 'wrap', sm: 'wrap', md: 'wrap', lg: 'nowrap' }}
-                                p={'32px'}
+                                flexWrap={{ base: 'wrap', sm: 'wrap', md: 'wrap', lg: 'wrap' }}
+                                p={'36px'}
+                                py={'50px'}
                                 justifyContent={'center'}
                                 display={'flex'}
                                 gap={4}
                             >
                                 {
                                     agent &&
-                                    agent.abilities.map((abiliti: any, index: any) => {
+                                    agent.abilities.map((abilitity: any, index: any) => {
                                         return (
                                             <Box
                                                 key={index}
@@ -230,19 +231,23 @@ const Index = () => {
                                                 alignItems={'center'}
                                                 p={'18px'}
                                                 maxWidth={'320px'}
+                                                minH={'400px'}
                                                 minWidth={'20%'}
                                                 flexDir={'column'}
                                                 display={'flex'}
                                             >
-                                                <img src={abiliti.displayIcon} alt={abiliti.displayName} width={'120px'} />
+                                                {
+                                                    abilitity.displayIcon &&
+                                                    <img src={abilitity.displayIcon} alt={abilitity.displayName} width={'120px'} />
+                                                }
                                                 <Text
                                                     fontSize={'32px'}
                                                     p={4}
                                                 >
-                                                    {abiliti.displayName}
+                                                    {abilitity.displayName}
                                                 </Text>
-                                                <Text>
-                                                    {abiliti.description}
+                                                <Text textAlign={'center'}>
+                                                    {abilitity.description}
                                                 </Text>
                                             </Box>
                                         )

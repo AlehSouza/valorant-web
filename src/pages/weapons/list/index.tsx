@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Head from "next/head";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Spinner, Text } from "@chakra-ui/react";
 import { Footer, NavBar } from "@/components";
 import { useRouter } from "next/navigation";
 
@@ -111,10 +111,18 @@ const weapons = [
 ]
 
 const Index = () => {
+
+    const [loading, setLoading] = useState(true)
     const router = useRouter()
     const navigateTo = (uuid: string) => {
         router.push(`/weapons/about/${uuid}`)
     }
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 200)
+    }, [])
 
     return (
         <Box>
@@ -122,90 +130,114 @@ const Index = () => {
                 <title>Valorant - Armas</title>
             </Head>
             <NavBar />
-            <Box>
-                <Text
-                    textAlign={'center'}
-                    fontSize={'80px'}
-                    fontWeight={'bold'}
-                    py={16}
-                    bgImage={'https://imgur.com/skK5qeD.png'}
-                    bgRepeat={'no-repeat'}
-                    bgSize={'cover'}
-                >
-                    SELECIONE SUA ARMA
-                </Text>
-            </Box>
-            <Box
-                px={30}
-                py={10}
-                gap={8}
-            >
-                <Flex
-                    flexWrap={'wrap'}
-                    justifyContent={'center'}
-                    gap={4}
-                >
-                    {
-                        weapons &&
-                        weapons.length > 0 &&
-                        weapons.map((weapon: any) => {
-                            return (
-                                <Flex
-                                    key={weapon.uuid}
-                                    width={400}
-                                    height={200}
-                                    position={'relative'}
-                                    flexDirection={'column'}
-                                    justifyContent={'center'}
-                                    alignItems={'center'}
-                                    borderWidth={1}
-                                    borderColor={'white'}
-                                    overflow={'hidden'}
-                                    _hover={{
-                                        borderColor: '#ff4656',
-                                        cursor: 'pointer'
-                                    }}
-                                    onClick={() => {
-                                        navigateTo(weapon.uuid)
-                                    }}
-                                >
-                                    <Flex
-                                        width={'100%'}
-                                        height={'100%'}
-                                        justifyContent={'center'}
-                                        alignItems={'center'}
-                                        textAlign={'center'}
-                                        position={'absolute'}
-                                        opacity={'0'}
-                                        _hover={{
-                                            backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                                            opacity: '1'
-                                        }}
-                                    >
-                                        <Text
-                                            fontSize={'90px'}
-                                            textTransform={'uppercase'}
-                                            fontWeight={'500'}
-                                            letterSpacing={'2px'}
+            {
+                !loading &&
+               <Box>
+                    <Box>
+                        <Text
+                            textAlign={'center'}
+                            fontSize={'80px'}
+                            fontWeight={'bold'}
+                            py={16}
+                            bgImage={'https://imgur.com/skK5qeD.png'}
+                            bgRepeat={'no-repeat'}
+                            bgSize={'cover'}
+                        >
+                            SELECIONE SUA ARMA
+                        </Text>
+                    </Box>
+                    <Box
+                        px={30}
+                        py={10}
+                        gap={8}
+                    >
+                        <Flex
+                            flexWrap={'wrap'}
+                            justifyContent={'center'}
+                            gap={4}
+                        >
+                            {
+                                weapons &&
+                                weapons.length > 0 &&
+                                weapons.map((weapon: any) => {
+                                    return (
+                                        <Flex
+                                            key={weapon.uuid}
+                                            width={400}
+                                            height={200}
+                                            position={'relative'}
+                                            flexDirection={'column'}
+                                            justifyContent={'center'}
+                                            alignItems={'center'}
+                                            borderWidth={1}
+                                            borderColor={'white'}
+                                            overflow={'hidden'}
+                                            _hover={{
+                                                borderColor: '#ff4656',
+                                                cursor: 'pointer'
+                                            }}
+                                            onClick={() => {
+                                                navigateTo(weapon.uuid)
+                                            }}
                                         >
-                                            {weapon.displayName}
-                                        </Text>
-                                    </Flex>
-                                    <Image
-                                        src={weapon.defaultSkin}
-                                        alt={weapon.displayName}
-                                        width={300}
-                                        height={400}
-                                        style={{
-                                            maxWidth: weapon.isPistol ? '160px' : '400px'
-                                        }}
-                                    />
-                                </Flex>
-                            )
-                        })
-                    }
+                                            <Flex
+                                                width={'100%'}
+                                                height={'100%'}
+                                                justifyContent={'center'}
+                                                alignItems={'center'}
+                                                textAlign={'center'}
+                                                position={'absolute'}
+                                                opacity={'0'}
+                                                _hover={{
+                                                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                                                    opacity: '1'
+                                                }}
+                                            >
+                                                <Text
+                                                    fontSize={'90px'}
+                                                    textTransform={'uppercase'}
+                                                    fontWeight={'500'}
+                                                    letterSpacing={'2px'}
+                                                >
+                                                    {weapon.displayName}
+                                                </Text>
+                                            </Flex>
+                                            <Image
+                                                src={weapon.defaultSkin}
+                                                alt={weapon.displayName}
+                                                width={300}
+                                                height={400}
+                                                style={{
+                                                    maxWidth: weapon.isPistol ? '160px' : '400px'
+                                                }}
+                                            />
+                                        </Flex>
+                                    )
+                                })
+                            }
+                        </Flex>
+                    </Box>
+                </Box>
+            }
+            {
+                loading &&
+                <Flex
+                    justifyContent={'center'}
+                    alignItems={'center'}
+                    margin={'auto'}
+                    minHeight={'90vh'}
+                    width={'100%'}
+                    height={'100%'}
+                >
+                    <Spinner
+                        thickness='4px'
+                        speed='0.65s'
+                        emptyColor='gray.200'
+                        color='#ff4656'
+                        size='xl'
+                    />
                 </Flex>
-            </Box>
+            }
             <Footer />
         </Box>
     )

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Head from "next/head"
 import { Box, Flex, Text, Spinner, useDisclosure } from "@chakra-ui/react"
-import { Footer, Modal, NavBar } from "@/components"
+import { Footer, Modal, NavBar, Search } from "@/components"
 import { api } from "@/services"
 import './style.css'
 
@@ -11,6 +11,7 @@ const Index = () => {
 
     const [loading, setLoading] = useState(true)
     const [bundles, setBundles] = useState<any>()
+    const [bundlesFiltered, setBundlesFiltered] = useState<any>()
     const [selectedBundle, setSelectedBundle] = useState<any>()
 
     const {
@@ -30,6 +31,7 @@ const Index = () => {
                 }
             }
             setBundles(aux)
+            setBundlesFiltered(aux)
         } catch (err) {
             console.error(err)
         }
@@ -80,19 +82,25 @@ const Index = () => {
                     PACOTES
                 </Text>
             </Box>
+            <Search
+                genericUpdate={setBundlesFiltered}
+                genericData={bundles}
+                placeholder={'Busque por nome do Pacote'}
+                maxLength={100}
+            />
             <Box
                 justifyContent={'center'}
                 alignItems={'flex-start'}
                 flexWrap={'wrap'}
                 display={'flex'}
-                minH={'80vh'}
+                minH={'60vh'}
                 p={'50px'}
             >
                 {
                     !loading &&
-                    bundles &&
-                    bundles.length > 0 &&
-                    bundles.map((bundle: any) => {
+                    bundlesFiltered &&
+                    bundlesFiltered.length > 0 &&
+                    bundlesFiltered.map((bundle: any) => {
                         return (
                             <Box
                                 key={bundle.uuid}
@@ -131,6 +139,24 @@ const Index = () => {
                             </Box>
                         )
                     })
+                }
+                {
+                    !loading &&
+                    bundlesFiltered &&
+                    bundlesFiltered.length === 0 &&
+                    <Flex
+                        width={'100%'}
+                        minH={'60vh'}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                    >
+                        <Text
+                            fontSize={'20px'}
+                            color={'#ff4656'}
+                        >
+                            Não encontramos nada por aqui...
+                        </Text>
+                    </Flex>
                 }
                 {
                     loading &&

@@ -19,7 +19,10 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
     );
 };
 
-export default function LargeWithLogoCentered() {
+export default function Index() {
+
+    const currentYear = new Date().getFullYear();
+
     return (
         <Box
             bg={useColorModeValue('gray.50', 'gray.900')}
@@ -75,7 +78,7 @@ export default function LargeWithLogoCentered() {
                     />
                 </Flex>
                 <Text pt={6} fontSize={'sm'} textAlign={'center'}>
-                    © 2023 Valorant. All rights reserved
+                    © {currentYear} Valorant -  Todos os direitos reservados.
                 </Text>
             </Box>
         </Box>

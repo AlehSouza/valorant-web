@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react'
 import Head from 'next/head'
 import './styles.css'
 import { Box, Button, Flex, Input, Select, Spinner, Text, useDisclosure } from '@chakra-ui/react'
-import { Footer, NavBar, Modal } from '@/components'
+// #TODO AJUSTAR PARA PODER USAR O SEARCH SEM FECHAR O MODAL
+import { Footer, NavBar, Modal, Search } from '@/components'
 import { api } from '@/services'
 import removeTitle from '@/helpers/parseTitles'
 // @ts-ignore
@@ -42,6 +43,8 @@ const Index = () => {
     const [wallpapers, setWallpapers] = useState<any>()
 
     const [cards, setCards] = useState<any>()
+    // #TODO AJUSTAR PARA PODER USAR O SEARCH SEM FECHAR O MODAL
+    const [cardsFiltered, setCardsFiltered] = useState<any>()
     const [banner, setBanner] = useState<any>()
 
     const [tier, setTier] = useState<any>()
@@ -52,11 +55,15 @@ const Index = () => {
 
     const [nickname, setNickname] = useState('Ale')
 
+    const [isOpen, setIsOpen] = useState(true)
+
     const handleGetCards = async () => {
         setLoadingCards(true)
         try {
             const { data: response } = await api.get('playercards')
             setCards(response.data)
+            // #TODO AJUSTAR PARA PODER USAR O SEARCH SEM FECHAR O MODAL
+            setCardsFiltered(response.data)
             var randomIndex = Math.floor(Math.random() * response.data.length);
             setBanner(response.data[randomIndex].largeArt)
         } catch (err) {
@@ -177,21 +184,29 @@ const Index = () => {
 
     const ModalBanners = () => {
         return (
-            <Modal title="Selecione seu Banner" isOpen={isOpenBanner} onClose={onCloseBanner} size={'5xl'}>
-                <Box
-                    flexWrap={'wrap'}
-                    justifyContent={'center'}
-                    display={'flex'}
-                    overflow={'auto'}
-                    maxH={'40vh'}
-                    mb={5}
-                    gap={1}
-                >
+            <Modal title="Selecione o seu Banner" isOpen={isOpenBanner} onClose={onCloseBanner} size={'5xl'}>
+                <Flex flexDir={'column'}>
+                    {/* #TODO AJUSTAR PARA PODER USAR O SEARCH SEM FECHAR O MODAL */}
+                    {/* <Search
+                        genericUpdate={setCardsFiltered}
+                        genericData={cards}
+                        placeholder={'Busque por nome do seu Banner'}
+                        maxLength={400}
+                    /> */}
+                    <Box 
+                        flexWrap={'wrap'}
+                        justifyContent={'center'}
+                        display={'flex'}
+                        overflow={'auto'}
+                        maxH={'40vh'}
+                        mb={5}
+                        gap={1}>
                     {
+                        // #TODO AJUSTAR PARA PODER USAR O SEARCH SEM FECHAR O MODAL
                         !loadingCards &&
-                        cards &&
-                        cards.length > 0 &&
-                        cards.map((card: any) => {
+                        cardsFiltered &&
+                        cardsFiltered.length > 0 &&
+                        cardsFiltered.map((card: any) => {
                             return (
                                 <Box
                                     key={card.uuid}
@@ -211,6 +226,25 @@ const Index = () => {
                         })
                     }
                     {
+                        // #TODO AJUSTAR PARA PODER USAR O SEARCH SEM FECHAR O MODAL
+                        !loadingCards &&
+                        cardsFiltered &&
+                        cardsFiltered.length === 0 &&
+                        <Flex
+                            width={'100%'}
+                            minH={'60vh'}
+                            justifyContent={'center'}
+                            alignItems={'center'}
+                        >
+                            <Text
+                                fontSize={'20px'}
+                                color={'#ff4656'}
+                            >
+                                Não encontramos nada por aqui...
+                            </Text>
+                        </Flex>
+                    }
+                    {
                         loadingCards &&
                         <Flex
                             width={'100%'}
@@ -227,14 +261,15 @@ const Index = () => {
                             />
                         </Flex>
                     }
-                </Box>
+                    </Box>
+                </Flex>
             </Modal>
         )
     }
 
     const ModalElos = () => {
         return (
-            <Modal title="Selecione seu Elo" isOpen={isOpenElo} onClose={onCloseElo} size={'md'}>
+            <Modal title="Selecione o seu Elo" isOpen={isOpenElo} onClose={onCloseElo} size={'md'}>
                 <Box
                     flexDir={'column'}
                     display={'flex'}
@@ -303,7 +338,7 @@ const Index = () => {
 
     const ModalWallpapers = () => {
         return (
-            <Modal title="Selecione seu Wallpaper" isOpen={isOpenWallpaper} onClose={onCloseWallpaper} size={'4xl'}>
+            <Modal title="Selecione o seu Wallpaper" isOpen={isOpenWallpaper} onClose={onCloseWallpaper} size={'4xl'}>
                 <Box
                     flexDir={'column'}
                     display={'flex'}
@@ -452,7 +487,7 @@ const Index = () => {
                                 <Box
                                     className="title-generate"
                                 >
-                                    <Text>{title}</Text>
+                                    <Text textAlign={'center'}>{title}</Text>
                                 </Box>
                                 <Box
                                     className="triangle-generate"
@@ -478,7 +513,7 @@ const Index = () => {
                 <Box
                     m={5}
                     p={5}
-                    minWidth={'200px'}
+                    minWidth={'330px'}
                     border={'1px solid #ff4656'}
                     flexDir={'column'}
                     display={'flex'}
@@ -488,172 +523,202 @@ const Index = () => {
                     left={5}
                     bottom={5}
                 >
-                    <Text>
-                        Digite seu nickname
-                    </Text>
-                    <Input
-                        placeholder='Avalanche'
-                        onChange={(e) => {
-                            setNickname(e.target.value)
-                        }}
-                    />
-                    <Select
-                        border={'1px solid #ff4656'}
-                        onChange={(e) => setTitle(e.target.value)}
-                        cursor={'pointer'}
-                        defaultValue={'DEFAULT'}
-                    >
-                        <option value={'DEFAULT'} disabled>Selecione...</option>
-                        {
-                            titles &&
-                            titles.length > 0 &&
-                            titles.map((titlesResp: any) => {
-                                return (
-                                    <option
-                                        value={removeTitle(titlesResp.displayName)}
-                                        key={titlesResp.uuid}
-                                    >
-                                        {removeTitle(titlesResp.displayName)}
-                                    </option>
-                                )
-                            })
-                        }
-                    </Select>
-                    <Flex
-                        borderBottom={'1px'}
-                        borderLeft={'1px'}
-                        borderColor={'#ece8e1'}
-                    >
+                    <Flex justifyContent={'space-between'} alignItems={'center'}>
+                        <Text position={'relative'}>
+                            {
+                                isOpen &&
+                                'Digite seu nickname'
+                            }
+                        </Text>
                         <Button
-                            width={'100%'}
-                            bg={'#ece8e1'}
-                            mb={2}
-                            ml={2}
-                            color={'#0f1923'}
-                            borderRadius={'0px'}
-                            onClick={() => onOpenBanner()}
-                            _hover={{
-                                bg: '#ff4656',
-                                color: '#0f1923'
-                            }}
-                        >
-                            <Text
-                                _hover={{
-                                    color: '#0f1923'
-                                }}
-                            >
-                                Selecione seu Banner
-                            </Text>
-                        </Button>
-                    </Flex>
-                    <Flex
-                        borderBottom={'1px'}
-                        borderLeft={'1px'}
-                        borderColor={'#ece8e1'}
-                    >
-                        <Button
-                            width={'100%'}
-                            bg={'#ece8e1'}
-                            mb={2}
-                            ml={2}
-                            color={'#0f1923'}
-                            borderRadius={'0px'}
-                            onClick={() => onOpenElo()}
-                            _hover={{
-                                bg: '#ff4656',
-                                color: '#0f1923'
-                            }}
-                        >
-                            <Text
-                                _hover={{
-                                    color: '#0f1923'
-                                }}
-                            >
-                                Selecione seu Elo
-                            </Text>
-                        </Button>
-                    </Flex>
-                    <Flex
-                        borderBottom={'1px'}
-                        borderLeft={'1px'}
-                        borderColor={'#ece8e1'}
-                    >
-                        <Button
-                            width={'100%'}
-                            bg={'#ece8e1'}
-                            mb={2}
-                            ml={2}
-                            color={'#0f1923'}
-                            borderRadius={'0px'}
-                            onClick={() => onOpenWallpaper()}
-                            _hover={{
-                                bg: '#ff4656',
-                                color: '#0f1923'
-                            }}
-                        >
-                            <Text
-                                _hover={{
-                                    color: '#0f1923'
-                                }}
-                            >
-                                Selecione seu Wallpaper
-                            </Text>
-                        </Button>
-                    </Flex>
-                    <Flex
-                        borderBottom={'1px'}
-                        borderLeft={'1px'}
-                        borderColor={'#ece8e1'}
-                    >
-                        <Button
-                            width={'100%'}
+                            width={'10px'}
+                            height={'15px'}
                             bg={'#ff4656'}
-                            mb={2}
-                            ml={2}
                             color={'#0f1923'}
                             borderRadius={'0px'}
-                            onClick={() => handleGenerateRandom()}
+                            onClick={() => setIsOpen(!isOpen)}
                             _hover={{
-                                bg: 'linear-gradient(#1347e3, #1ba9d4)',
+                                bg: '#57171d',
                                 color: '#0f1923'
                             }}
-                        >
-                            <Text
-                                _hover={{
-                                    color: '#0f1923'
-                                }}
-                            >
-                                Gerar Aleatório
-                            </Text>
-                        </Button>
+                        />
                     </Flex>
-                    <Flex
-                        borderBottom={'1px'}
-                        borderLeft={'1px'}
-                        borderColor={'#ece8e1'}
-                    >
-                        <Button
-                            width={'100%'}
-                            bg={'#ece8e1'}
-                            mb={2}
-                            ml={2}
-                            color={'#0f1923'}
-                            borderRadius={'0px'}
-                            onClick={() => onOpenShare()}
-                            _hover={{
-                                bg: '#ff4656',
-                                color: '#0f1923'
-                            }}
+                    {
+                        isOpen &&
+                        <Box
+                            minWidth={'200px'}
+                            flexDir={'column'}
+                            display={'flex'}
+                            bg={'#171923'}
+                            gap={4}
+                            left={5}
+                            bottom={5}
                         >
-                            <Text
-                                _hover={{
-                                    color: '#0f1923'
+                            <Input
+                                placeholder='Avalanche'
+                                onChange={(e) => {
+                                    setNickname(e.target.value)
                                 }}
+                            />
+                            <Select
+                                border={'1px solid #ff4656'}
+                                onChange={(e) => setTitle(e.target.value)}
+                                cursor={'pointer'}
+                                defaultValue={'DEFAULT'}
                             >
-                                Compartilhar
-                            </Text>
-                        </Button>
-                    </Flex>
+                                <option value={'DEFAULT'} disabled>Selecione...</option>
+                                {
+                                    titles &&
+                                    titles.length > 0 &&
+                                    titles.map((titlesResp: any) => {
+                                        return (
+                                            <option
+                                                value={removeTitle(titlesResp.displayName)}
+                                                key={titlesResp.uuid}
+                                            >
+                                                {removeTitle(titlesResp.displayName)}
+                                            </option>
+                                        )
+                                    })
+                                }
+                            </Select>
+                            <Flex
+                                borderBottom={'1px'}
+                                borderLeft={'1px'}
+                                borderColor={'#ece8e1'}
+                            >
+                                <Button
+                                    width={'100%'}
+                                    bg={'#ece8e1'}
+                                    mb={2}
+                                    ml={2}
+                                    color={'#0f1923'}
+                                    borderRadius={'0px'}
+                                    onClick={() => onOpenBanner()}
+                                    _hover={{
+                                        bg: '#ff4656',
+                                        color: '#0f1923'
+                                    }}
+                                >
+                                    <Text
+                                        _hover={{
+                                            color: '#0f1923'
+                                        }}
+                                    >
+                                        Selecione o seu Banner
+                                    </Text>
+                                </Button>
+                            </Flex>
+                            <Flex
+                                borderBottom={'1px'}
+                                borderLeft={'1px'}
+                                borderColor={'#ece8e1'}
+                            >
+                                <Button
+                                    width={'100%'}
+                                    bg={'#ece8e1'}
+                                    mb={2}
+                                    ml={2}
+                                    color={'#0f1923'}
+                                    borderRadius={'0px'}
+                                    onClick={() => onOpenElo()}
+                                    _hover={{
+                                        bg: '#ff4656',
+                                        color: '#0f1923'
+                                    }}
+                                >
+                                    <Text
+                                        _hover={{
+                                            color: '#0f1923'
+                                        }}
+                                    >
+                                        Selecione o seu Elo
+                                    </Text>
+                                </Button>
+                            </Flex>
+                            <Flex
+                                borderBottom={'1px'}
+                                borderLeft={'1px'}
+                                borderColor={'#ece8e1'}
+                            >
+                                <Button
+                                    width={'100%'}
+                                    bg={'#ece8e1'}
+                                    mb={2}
+                                    ml={2}
+                                    color={'#0f1923'}
+                                    borderRadius={'0px'}
+                                    onClick={() => onOpenWallpaper()}
+                                    _hover={{
+                                        bg: '#ff4656',
+                                        color: '#0f1923'
+                                    }}
+                                >
+                                    <Text
+                                        _hover={{
+                                            color: '#0f1923'
+                                        }}
+                                    >
+                                        Selecione o seu Wallpaper
+                                    </Text>
+                                </Button>
+                            </Flex>
+                            <Flex
+                                borderBottom={'1px'}
+                                borderLeft={'1px'}
+                                borderColor={'#ece8e1'}
+                            >
+                                <Button
+                                    width={'100%'}
+                                    bg={'#ff4656'}
+                                    mb={2}
+                                    ml={2}
+                                    color={'#0f1923'}
+                                    borderRadius={'0px'}
+                                    onClick={() => handleGenerateRandom()}
+                                    _hover={{
+                                        bg: 'linear-gradient(#1347e3, #1ba9d4)',
+                                        color: '#0f1923'
+                                    }}
+                                >
+                                    <Text
+                                        _hover={{
+                                            color: '#0f1923'
+                                        }}
+                                    >
+                                        Gerar Perfil Aleatório
+                                    </Text>
+                                </Button>
+                            </Flex>
+                            <Flex
+                                borderBottom={'1px'}
+                                borderLeft={'1px'}
+                                borderColor={'#ece8e1'}
+                            >
+                                <Button
+                                    width={'100%'}
+                                    bg={'#ece8e1'}
+                                    mb={2}
+                                    ml={2}
+                                    color={'#0f1923'}
+                                    borderRadius={'0px'}
+                                    onClick={() => onOpenShare()}
+                                    _hover={{
+                                        bg: '#ff4656',
+                                        color: '#0f1923'
+                                    }}
+                                >
+                                    <Text
+                                        _hover={{
+                                            color: '#0f1923'
+                                        }}
+                                    >
+                                        Compartilhar
+                                    </Text>
+                                </Button>
+                            </Flex>
+                        </Box>
+                    }
                 </Box>
             </Box>
             <Footer />

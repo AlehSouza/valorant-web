@@ -10,6 +10,7 @@ import Bundles from './bundles'
 import Agents from './agents'
 import Footer from './footer'
 import Developing from './developing'
+import Search from './search'
 
 export {
     NavBar,
@@ -23,5 +24,6 @@ export {
     Modal,
     Agents,
     Footer,
-    Developing
+    Developing,
+    Search
 }
