@@ -38,7 +38,7 @@ const Index = () => {
     const [loadingCards, setLoadingCards] = useState(false)
     const [loadingElo, setLoadingElo] = useState(false)
 
-    const [wallpaper, setWallpaper] = useState('')
+    const [wallpaper, setWallpaper] = useState<any>()
     const [wallpapers, setWallpapers] = useState<any>()
 
     const [cards, setCards] = useState<any>()
@@ -102,7 +102,10 @@ const Index = () => {
             const { data: response } = await api.get('weapons/9c82e19d-4575-0200-1a81-3eacf00cf872')
             for (let i = 0; i < response.data.skins.length; i++) {
                 if (response.data.skins[i].wallpaper != null) {
-                    auxWallpapers.push(response.data.skins[i].wallpaper)
+                    auxWallpapers.push({
+                        image: response.data.skins[i].wallpaper,
+                        name: response.data.skins[i].displayName.split(" ")[0]
+                    })
                 }
             }
             setWallpapers(auxWallpapers)
@@ -110,7 +113,7 @@ const Index = () => {
             console.error(err)
         }
         var randomIndex = Math.floor(Math.random() * auxWallpapers.length);
-        setWallpaper(auxWallpapers[randomIndex])
+        setWallpaper(auxWallpapers[randomIndex].image)
     }
 
     const handleGenerateRandom = () => {
@@ -131,7 +134,7 @@ const Index = () => {
         setTitle(removeTitle(titles[randomIndex].displayName))
         // Wallpaper
         var randomIndex = Math.floor(Math.random() * wallpapers.length);
-        setWallpaper(wallpapers[randomIndex])
+        setWallpaper(wallpapers[randomIndex].image)
     }
 
     const handleClipImage = () => {
@@ -305,7 +308,7 @@ const Index = () => {
                     flexDir={'column'}
                     display={'flex'}
                     overflow={'auto'}
-                    maxH={'40vh'}
+                    maxH={'50vh'}
                     gap={4}
                     mb={5}
                 >
@@ -316,7 +319,7 @@ const Index = () => {
                             return (
                                 <Box
                                     key={wallpp}
-                                    bgImage={wallpp}
+                                    bgImage={wallpp.image}
                                     bgPos={'center'}
                                     borderRadius={'8px'}
                                     overflow={'hidden'}
@@ -326,7 +329,7 @@ const Index = () => {
                                     }}
                                     onClick={() => {
                                         onCloseWallpaper()
-                                        setWallpaper(wallpp)
+                                        setWallpaper(wallpp.image)
                                     }}
                                 >
                                     <Box
@@ -340,6 +343,16 @@ const Index = () => {
                                             bgColor: 'rgba(0,0,0,0.7)',
                                         }}
                                     >
+                                        <Text
+                                            textAlign={'center'}
+                                            fontSize={'80px'}
+                                            fontWeight={'bold'}
+                                            py={8}
+                                            bgRepeat={'no-repeat'}
+                                            bgSize={'cover'}
+                                        >
+                                            {wallpp.name}
+                                        </Text>
                                     </Box>
                                 </Box>
                             )
@@ -488,8 +501,9 @@ const Index = () => {
                         border={'1px solid #ff4656'}
                         onChange={(e) => setTitle(e.target.value)}
                         cursor={'pointer'}
+                        defaultValue={'DEFAULT'}
                     >
-                        <option selected disabled>Selecione...</option>
+                        <option value={'DEFAULT'} disabled>Selecione...</option>
                         {
                             titles &&
                             titles.length > 0 &&
