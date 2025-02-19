@@ -563,61 +563,66 @@ const Index = () => {
                 <Box
                     id="canva"
                     h={'90vh'}
-                    bgImage={wallpaper}
-                    bgPos={'center'}
-                    bgSize={'cover'}
+                    backgroundColor={'rgba(0,0,0,1)'}
                 >
                     <Box
-                        minH={'100%'}
-                        bg={'rgba(0,0,0,0.5)'}
-                        flexDirection={'column'}
-                        justifyContent={'center'}
-                        alignItems={'center'}
-                        display={'flex'}
+                        h={'90vh'}
+                        bgImage={wallpaper}
+                        bgPos={'center'}
+                        bgSize={'cover'}
                     >
-                        <Box className="container-generate">
-                            <div className="border-generate"></div>
-                            <Box
-                                className="banner-generate"
-                                bgImage={card}
-                            >
-                                <Text style={{
-                                    letterSpacing: '1px',
-                                    fontSize: '12px'
-                                }}>PRONTO</Text>
+                        <Box
+                            minH={'100%'}
+                            bg={'rgba(0,0,0,0.5)'}
+                            flexDirection={'column'}
+                            justifyContent={'center'}
+                            alignItems={'center'}
+                            display={'flex'}
+                        >
+                            <Box className="container-generate">
+                                <div className="border-generate"></div>
                                 <Box
-                                    className="nickname-generate"
-                                    justifyContent={'center'}
-                                    alignItems={'center'}
-                                    display={'flex'}
-                                    minH={'34px'}
+                                    className="banner-generate"
+                                    bgImage={card}
                                 >
-                                    <Text>{nickname}</Text>
-                                </Box>
-                                <Box
-                                    className="title-generate"
-                                >
-                                    <Text textAlign={'center'}>{title}</Text>
-                                </Box>
-                                <Box
-                                    className="triangle-generate"
-                                    justifyContent={'center'}
-                                    alignItems={'center'}
-                                    display={'flex'}
-                                >
+                                    <Text style={{
+                                        letterSpacing: '1px',
+                                        fontSize: '12px'
+                                    }}>PRONTO</Text>
                                     <Box
-                                        className="square-elo-generate"
+                                        className="nickname-generate"
+                                        justifyContent={'center'}
+                                        alignItems={'center'}
+                                        display={'flex'}
+                                        minH={'34px'}
+                                    >
+                                        <Text>{nickname}</Text>
+                                    </Box>
+                                    <Box
+                                        className="title-generate"
+                                    >
+                                        <Text textAlign={'center'}>{title}</Text>
+                                    </Box>
+                                    <Box
+                                        className="triangle-generate"
                                         justifyContent={'center'}
                                         alignItems={'center'}
                                         display={'flex'}
                                     >
-                                        <img src={tier} alt="tier" />
+                                        <Box
+                                            className="square-elo-generate"
+                                            justifyContent={'center'}
+                                            alignItems={'center'}
+                                            display={'flex'}
+                                        >
+                                            <img src={tier} alt="tier" />
+                                        </Box>
                                     </Box>
                                 </Box>
                             </Box>
+                            <Box className="lines">&nbsp;</Box>
+                            <Box className="yellow-effects">&nbsp;</Box>
                         </Box>
-                        <Box className="lines">&nbsp;</Box>
-                        <Box className="yellow-effects">&nbsp;</Box>
                     </Box>
                 </Box>
                 <Box
