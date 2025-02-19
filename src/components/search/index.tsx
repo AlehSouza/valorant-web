@@ -89,4 +89,6 @@ const Index = forwardRef((
     );
 });
 
+Index.displayName = 'Search'
+
 export default Index
