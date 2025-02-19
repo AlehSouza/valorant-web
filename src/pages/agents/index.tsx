@@ -5,7 +5,6 @@ import { api } from "@/services";
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react'
 import { useRouter } from "next/navigation";
 import { Footer, NavBar, Search } from "@/components";
-import { translate } from "@/helpers";
 import './styles.css'
 
 const Index = () => {
@@ -17,7 +16,7 @@ const Index = () => {
     const handleGetAgents = async () => {
         setLoading(true)
         try {
-            const { data: response } = await api.get('agents?isPlayableCharacter=true')
+            const { data: response } = await api.get('agents?isPlayableCharacter=true&language=pt-BR')
             const auxAgents = response.data.sort()
             setAgents(auxAgents)
             setAgentsFiltered(auxAgents)
@@ -153,7 +152,7 @@ const Index = () => {
                                             transform: 'rotate(90deg)'
                                         }}
                                     >
-                                        {translate(agent.role.displayName)}
+                                        {agent.role.displayName}
                                     </Text>
                                 </Flex>
                             </Flex>

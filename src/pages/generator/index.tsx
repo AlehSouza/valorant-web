@@ -1,76 +1,211 @@
 /* eslint-disable @next/next/no-img-element */
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Head from 'next/head'
 import './styles.css'
 import { Box, Button, Flex, Input, Select, Spinner, Text, useDisclosure } from '@chakra-ui/react'
-// #TODO AJUSTAR PARA PODER USAR O SEARCH SEM FECHAR O MODAL
 import { Footer, NavBar, Modal, Search } from '@/components'
 import { api } from '@/services'
-import removeTitle from '@/helpers/parseTitles'
 // @ts-ignore
 import domtoimage from 'dom-to-image';
+import { useBanner } from '@/contexts/banner/banner-context'
 
-const Index = () => {
+const ModalBanners = () => {
     const {
         isOpen: isOpenBanner,
         onOpen: onOpenBanner,
         onClose: onCloseBanner
     } = useDisclosure()
 
-    const {
-        isOpen: isOpenElo,
-        onOpen: onOpenElo,
-        onClose: onCloseElo
-    } = useDisclosure()
-
-    const {
-        isOpen: isOpenWallpaper,
-        onOpen: onOpenWallpaper,
-        onClose: onCloseWallpaper
-    } = useDisclosure()
-
-    const {
-        isOpen: isOpenShare,
-        onOpen: onOpenShare,
-        onClose: onCloseShare
-    } = useDisclosure()
-
-    const [loadingCards, setLoadingCards] = useState(false)
-    const [loadingElo, setLoadingElo] = useState(false)
-
-    const [wallpaper, setWallpaper] = useState<any>()
-    const [wallpapers, setWallpapers] = useState<any>()
-
-    const [cards, setCards] = useState<any>()
-    // #TODO AJUSTAR PARA PODER USAR O SEARCH SEM FECHAR O MODAL
     const [cardsFiltered, setCardsFiltered] = useState<any>()
-    const [banner, setBanner] = useState<any>()
+    const { cards, setCards, setCard } = useBanner()
+    const [loadingCards, setLoadingCards] = useState(false)
 
-    const [tier, setTier] = useState<any>()
-    const [tiers, setTiers] = useState<any>()
+    const searchRef = useRef<{ reset: () => void } | null>(null);
 
-    const [titles, setTitles] = useState<any>()
-    const [title, setTitle] = useState<any>()
-
-    const [nickname, setNickname] = useState('Ale')
-
-    const [isOpen, setIsOpen] = useState(true)
+    const resetSearch = () => {
+        const input = document.getElementById('search-cards') as HTMLInputElement
+        input.value = ''
+        input.focus()
+        searchRef.current?.reset()
+    }
 
     const handleGetCards = async () => {
         setLoadingCards(true)
         try {
             const { data: response } = await api.get('playercards')
             setCards(response.data)
-            // #TODO AJUSTAR PARA PODER USAR O SEARCH SEM FECHAR O MODAL
             setCardsFiltered(response.data)
             var randomIndex = Math.floor(Math.random() * response.data.length);
-            setBanner(response.data[randomIndex].largeArt)
+            setCard(response.data[randomIndex].largeArt)
         } catch (err) {
             console.error(err)
         }
         setLoadingCards(false)
     }
+
+    useEffect(() => {
+        handleGetCards()
+    },[])
+
+    return (
+        <Box>
+            <Flex
+                borderBottom={'1px'}
+                borderLeft={'1px'}
+                borderColor={'#ece8e1'}
+            >
+                <Button
+                    width={'100%'}
+                    bg={'#ece8e1'}
+                    mb={2}
+                    ml={2}
+                    color={'#0f1923'}
+                    borderRadius={'0px'}
+                    onClick={() => onOpenBanner()}
+                    _hover={{
+                        bg: '#ff4656',
+                        color: '#0f1923'
+                    }}
+                >
+                    <Text
+                        _hover={{
+                            color: '#0f1923'
+                        }}
+                    >
+                        Selecione o seu Banner
+                    </Text>
+                </Button>
+            </Flex>
+            <Modal title="Selecione o seu Banner" isOpen={isOpenBanner} onClose={onCloseBanner} size={'5xl'} >
+                <Flex flexDir={'column'}>
+                    <Search
+                        ref={searchRef}
+                        genericUpdate={setCardsFiltered}
+                        genericData={cards}
+                        placeholder={'Busque por nome do seu Banner'}
+                        maxLength={400}
+                        padding={2}
+                        bgColor='transparent'
+                        maxW='100%'
+                    />
+                    <Box 
+                        flexWrap={'wrap'}
+                        justifyContent={'center'}
+                        alignItems={'center'}
+                        display={'flex'}
+                        overflow={'auto'}
+                        minH={'40vh'}
+                        maxH={'40vh'}
+                        mb={5}
+                        gap={1}>
+                    {
+                    
+                        !loadingCards &&
+                        cardsFiltered &&
+                        cardsFiltered.length > 0 &&
+                        cardsFiltered.map((card: any) => {
+                            return (
+                                <Box
+                                    key={card.uuid}
+                                    border={'2px solid white'}
+                                    _hover={{
+                                        border: '2px solid #ff4656',
+                                        cursor: 'pointer'
+                                    }}
+                                    onClick={() => {
+                                        onCloseBanner()
+                                        setCard(card.largeArt)
+                                    }}
+                                >
+                                    <img src={card.smallArt} alt="" width={'100%'} />
+                                </Box>
+                            )
+                        })
+                    }
+                    {
+                    
+                        !loadingCards &&
+                        cardsFiltered &&
+                        cardsFiltered.length === 0 &&
+                        <Flex
+                            width={'100%'}
+                            p={4}
+                            justifyContent={'center'}
+                            alignItems={'center'}
+                            flexDir={'column'}
+                        >
+                            <Text
+                                textAlign={'center'}
+                                fontSize={'20px'}
+                                color={'#ff4656'}
+                            >
+                                Não encontramos nada por aqui...
+                                <br/>
+                                lembre-se de procurar pelo nome do <b>Card</b> e não do seu personagem!
+                            </Text>
+
+                            <br/>
+                            <Button
+                                maxW={'300px'}
+                                width={'100%'}
+                                bg={'#ece8e1'}
+                                mb={2}
+                                ml={2}
+                                color={'#0f1923'}
+                                borderRadius={'0px'}
+                                onClick={() => {
+                                    resetSearch()
+                                }}
+                                _hover={{
+                                    bg: '#ff4656',
+                                    color: '#0f1923'
+                                }}
+                            >
+                                <Text
+                                    _hover={{
+                                        color: '#0f1923'
+                                    }}
+                                >
+                                    Pesquisar novamente
+                                </Text>
+                            </Button>
+                        </Flex>
+                    }
+                    {
+                        loadingCards &&
+                        <Flex
+                            width={'100%'}
+                            height={'100%'}
+                            minH={'40vh'}
+                            justifyContent={'center'}
+                            alignItems={'center'}
+                        >
+                            <Spinner
+                                thickness='4px'
+                                speed='0.65s'
+                                emptyColor='gray.200'
+                                color='#ff4656'
+                                size='xl'
+                            />
+                        </Flex>
+                    }
+                    </Box>
+                </Flex>
+            </Modal>
+        </Box>
+    )
+}
+
+const ModalElos = () => {
+    const {
+        isOpen: isOpenElo,
+        onOpen: onOpenElo,
+        onClose: onCloseElo
+    } = useDisclosure()
+
+    const { tiers, setTier, setTiers, } = useBanner()
+    const [loadingElo, setLoadingElo] = useState(false)
 
     const handleGetTiers = async () => {
         setLoadingElo(true)
@@ -92,183 +227,39 @@ const Index = () => {
         setLoadingElo(false)
     }
 
-    const handleGetTitles = async () => {
-        try {
-            const { data: response } = await api.get('playertitles?language=pt-BR')
-            var randomIndex = Math.floor(Math.random() * response.data.length);
-            setTitle(removeTitle(response.data[randomIndex].displayName))
-            setTitles(response.data)
-        } catch (err) {
-            console.error(err)
-        }
-    }
-
-    const handleGetWallpapers = async () => {
-        let auxWallpapers = []
-        try {
-            const { data: response } = await api.get('weapons/9c82e19d-4575-0200-1a81-3eacf00cf872')
-            for (let i = 0; i < response.data.skins.length; i++) {
-                if (response.data.skins[i].wallpaper != null) {
-                    auxWallpapers.push({
-                        image: response.data.skins[i].wallpaper,
-                        name: response.data.skins[i].displayName.split(" ")[0]
-                    })
-                }
-            }
-            setWallpapers(auxWallpapers)
-        } catch (err) {
-            console.error(err)
-        }
-        var randomIndex = Math.floor(Math.random() * auxWallpapers.length);
-        setWallpaper(auxWallpapers[randomIndex].image)
-    }
-
-    const handleGenerateRandom = () => {
-        // Banner
-        var randomIndex = Math.floor(Math.random() * cards.length);
-        setBanner(cards[randomIndex].largeArt)
-        // Tier
-        do {
-            var randomIndex = Math.floor(Math.random() * tiers.length);
-            if (tiers[randomIndex].tierName.startsWith("Unused")) {
-                continue
-            }
-            break
-        } while (true)
-        setTier(tiers[randomIndex].largeIcon)
-        // Title
-        var randomIndex = Math.floor(Math.random() * titles.length);
-        setTitle(removeTitle(titles[randomIndex].displayName))
-        // Wallpaper
-        var randomIndex = Math.floor(Math.random() * wallpapers.length);
-        setWallpaper(wallpapers[randomIndex].image)
-    }
-
-    const handleClipImage = () => {
-        domtoimage.toPng(document.getElementById('canva'))
-            .then((dataUrl: any) => {
-                navigator.clipboard.writeText(dataUrl).then(function () {
-                    var link = document.createElement('a');
-                    link.href = URL.createObjectURL(dataUrlToBlob(dataUrl));
-                    link.download = 'Banner';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                }).catch(function (error) {
-                    console.error('Erro ao salvar a imagem na área de transferência:', error)
-                })
-            })
-            .catch((err: any) => {
-                console.error('Erro ao capturar a div como uma imagem:', err)
-            })
-    }
-
-    const dataUrlToBlob = (dataUrl: any) => {
-        var arr = dataUrl.split(',');
-        var mime = arr[0].match(/:(.*?);/)[1];
-        var bstr = atob(arr[1]);
-        var n = bstr.length;
-        var u8arr = new Uint8Array(n);
-        while (n--) {
-            u8arr[n] = bstr.charCodeAt(n);
-        }
-        return new Blob([u8arr], { type: mime });
-    }
-
     useEffect(() => {
-        handleGetWallpapers()
-        handleGetCards()
         handleGetTiers()
-        handleGetTitles()
-    }, [])
+    },[])
 
-    const ModalBanners = () => {
-        return (
-            <Modal title="Selecione o seu Banner" isOpen={isOpenBanner} onClose={onCloseBanner} size={'5xl'}>
-                <Flex flexDir={'column'}>
-                    {/* #TODO AJUSTAR PARA PODER USAR O SEARCH SEM FECHAR O MODAL */}
-                    {/* <Search
-                        genericUpdate={setCardsFiltered}
-                        genericData={cards}
-                        placeholder={'Busque por nome do seu Banner'}
-                        maxLength={400}
-                    /> */}
-                    <Box 
-                        flexWrap={'wrap'}
-                        justifyContent={'center'}
-                        display={'flex'}
-                        overflow={'auto'}
-                        maxH={'40vh'}
-                        mb={5}
-                        gap={1}>
-                    {
-                        // #TODO AJUSTAR PARA PODER USAR O SEARCH SEM FECHAR O MODAL
-                        !loadingCards &&
-                        cardsFiltered &&
-                        cardsFiltered.length > 0 &&
-                        cardsFiltered.map((card: any) => {
-                            return (
-                                <Box
-                                    key={card.uuid}
-                                    border={'2px solid white'}
-                                    _hover={{
-                                        border: '2px solid #ff4656',
-                                        cursor: 'pointer'
-                                    }}
-                                    onClick={() => {
-                                        onCloseBanner()
-                                        setBanner(card.largeArt)
-                                    }}
-                                >
-                                    <img src={card.smallArt} alt="" width={'100%'} />
-                                </Box>
-                            )
-                        })
-                    }
-                    {
-                        // #TODO AJUSTAR PARA PODER USAR O SEARCH SEM FECHAR O MODAL
-                        !loadingCards &&
-                        cardsFiltered &&
-                        cardsFiltered.length === 0 &&
-                        <Flex
-                            width={'100%'}
-                            minH={'60vh'}
-                            justifyContent={'center'}
-                            alignItems={'center'}
-                        >
-                            <Text
-                                fontSize={'20px'}
-                                color={'#ff4656'}
-                            >
-                                Não encontramos nada por aqui...
-                            </Text>
-                        </Flex>
-                    }
-                    {
-                        loadingCards &&
-                        <Flex
-                            width={'100%'}
-                            height={'100%'}
-                            justifyContent={'center'}
-                            alignItems={'center'}
-                        >
-                            <Spinner
-                                thickness='4px'
-                                speed='0.65s'
-                                emptyColor='gray.200'
-                                color='#ff4656'
-                                size='xl'
-                            />
-                        </Flex>
-                    }
-                    </Box>
-                </Flex>
-            </Modal>
-        )
-    }
-
-    const ModalElos = () => {
-        return (
+    return (
+        <Box>
+            <Flex
+                borderBottom={'1px'}
+                borderLeft={'1px'}
+                borderColor={'#ece8e1'}
+            >
+                <Button
+                    width={'100%'}
+                    bg={'#ece8e1'}
+                    mb={2}
+                    ml={2}
+                    color={'#0f1923'}
+                    borderRadius={'0px'}
+                    onClick={() => onOpenElo()}
+                    _hover={{
+                        bg: '#ff4656',
+                        color: '#0f1923'
+                    }}
+                >
+                    <Text
+                        _hover={{
+                            color: '#0f1923'
+                        }}
+                    >
+                        Selecione o seu Elo
+                    </Text>
+                </Button>
+            </Flex>
             <Modal title="Selecione o seu Elo" isOpen={isOpenElo} onClose={onCloseElo} size={'md'}>
                 <Box
                     flexDir={'column'}
@@ -333,71 +324,193 @@ const Index = () => {
                     }
                 </Box>
             </Modal>
-        )
+        </Box>
+    )
+}
+
+const ModalWallpapers = () => {
+    const {
+        isOpen: isOpenWallpaper,
+        onOpen: onOpenWallpaper,
+        onClose: onCloseWallpaper
+    } = useDisclosure()
+
+    const { wallpapers, setWallpapers, setWallpaper } = useBanner()
+
+    const handleGetWallpapers = async () => {
+        let auxWallpapers = []
+        try {
+            const { data: response } = await api.get('weapons/9c82e19d-4575-0200-1a81-3eacf00cf872')
+            for (let i = 0; i < response.data.skins.length; i++) {
+                if (response.data.skins[i].wallpaper != null) {
+                    auxWallpapers.push({
+                        image: response.data.skins[i].wallpaper,
+                        name: response.data.skins[i].displayName.split(" ")[0]
+                    })
+                }
+            }
+            setWallpapers(auxWallpapers)
+        } catch (err) {
+            console.error(err)
+        }
+        var randomIndex = Math.floor(Math.random() * auxWallpapers.length);
+        setWallpaper(auxWallpapers[randomIndex].image)
     }
 
-    const ModalWallpapers = () => {
-        return (
-            <Modal title="Selecione o seu Wallpaper" isOpen={isOpenWallpaper} onClose={onCloseWallpaper} size={'4xl'}>
-                <Box
-                    flexDir={'column'}
-                    display={'flex'}
-                    overflow={'auto'}
-                    maxH={'50vh'}
-                    gap={4}
-                    mb={5}
+    useEffect(() => {
+        handleGetWallpapers()
+    },[])
+
+    return  (
+        <Box>
+            <Flex
+                borderBottom={'1px'}
+                borderLeft={'1px'}
+                borderColor={'#ece8e1'}
+            >
+                <Button
+                    width={'100%'}
+                    bg={'#ece8e1'}
+                    mb={2}
+                    ml={2}
+                    color={'#0f1923'}
+                    borderRadius={'0px'}
+                    onClick={() => onOpenWallpaper()}
+                    _hover={{
+                        bg: '#ff4656',
+                        color: '#0f1923'
+                    }}
                 >
-                    {
-                        wallpapers &&
-                        wallpapers.length > 0 &&
-                        wallpapers.map((wallpp: any) => {
-                            return (
-                                <Box
-                                    key={wallpp}
-                                    bgImage={wallpp.image}
-                                    bgPos={'center'}
-                                    borderRadius={'8px'}
-                                    overflow={'hidden'}
-                                    minH={'200px'}
-                                    style={{
-                                        cursor: 'pointer'
-                                    }}
-                                    onClick={() => {
-                                        onCloseWallpaper()
-                                        setWallpaper(wallpp.image)
-                                    }}
-                                >
+                    <Text
+                        _hover={{
+                            color: '#0f1923'
+                        }}
+                    >
+                        Selecione o seu Wallpaper
+                    </Text>
+                </Button>
+            </Flex>
+            <Modal title="Selecione o seu Wallpaper" isOpen={isOpenWallpaper} onClose={onCloseWallpaper} size={'4xl'}>
+                    <Box
+                        flexDir={'column'}
+                        display={'flex'}
+                        overflow={'auto'}
+                        maxH={'50vh'}
+                        gap={4}
+                        mb={5}
+                    >
+                        {
+                            wallpapers &&
+                            wallpapers.length > 0 &&
+                            wallpapers.map((wallpp: any, index: any) => {
+                                return (
                                     <Box
-                                        bgColor={'rgba(0,0,0,0.5)'}
+                                        key={index}
+                                        bgImage={wallpp.image}
+                                        bgPos={'center'}
+                                        borderRadius={'8px'}
+                                        overflow={'hidden'}
                                         minH={'200px'}
-                                        flexDirection={'column'}
-                                        display={'flex'}
-                                        p={'12px'}
-                                        gap={4}
-                                        _hover={{
-                                            bgColor: 'rgba(0,0,0,0.7)',
+                                        style={{
+                                            cursor: 'pointer'
+                                        }}
+                                        onClick={() => {
+                                            onCloseWallpaper()
+                                            setWallpaper(wallpp.image)
                                         }}
                                     >
-                                        <Text
-                                            textAlign={'center'}
-                                            fontSize={'80px'}
-                                            fontWeight={'bold'}
-                                            py={8}
-                                            bgRepeat={'no-repeat'}
-                                            bgSize={'cover'}
+                                        <Box
+                                            bgColor={'rgba(0,0,0,0.5)'}
+                                            minH={'200px'}
+                                            flexDirection={'column'}
+                                            display={'flex'}
+                                            p={'12px'}
+                                            gap={4}
+                                            _hover={{
+                                                bgColor: 'rgba(0,0,0,0.7)',
+                                            }}
                                         >
-                                            {wallpp.name}
-                                        </Text>
+                                            <Text
+                                                textAlign={'center'}
+                                                fontSize={'80px'}
+                                                fontWeight={'bold'}
+                                                py={8}
+                                                bgRepeat={'no-repeat'}
+                                                bgSize={'cover'}
+                                            >
+                                                {wallpp.name}
+                                            </Text>
+                                        </Box>
                                     </Box>
-                                </Box>
-                            )
-                        })
-                    }
-                </Box>
+                                )
+                            })
+                        }
+                    </Box>
             </Modal>
+        </Box>
+    )
+}
 
-        )
+const Index = () => {
+
+    const {
+        isOpen: isOpenShare,
+        onOpen: onOpenShare,
+        onClose: onCloseShare
+    } = useDisclosure()
+
+    const [nickname, setNickname] = useState('Ale')
+    const [isOpen, setIsOpen] = useState(true)
+
+    const { } = useBanner()
+    
+    const {card, tier, wallpaper, titles, title, setTitle, setTitles, handleGenerateRandom} = useBanner()
+
+    const handleGetTitles = async () => {
+        try {
+            const { data: response } = await api.get('playertitles?language=pt-BR')
+            var randomIndex = Math.floor(Math.random() * response.data.length);
+            setTitles(response.data)
+            setTitle(response.data[randomIndex].titleText)
+        } catch (err) {
+            console.error(err)
+        }
     }
+
+    const handleClipImage = () => {
+        domtoimage.toPng(document.getElementById('canva'))
+            .then((dataUrl: any) => {
+                navigator.clipboard.writeText(dataUrl).then(function () {
+                    var link = document.createElement('a');
+                    link.href = URL.createObjectURL(dataUrlToBlob(dataUrl));
+                    link.download = 'Banner';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }).catch(function (error) {
+                    console.error('Erro ao salvar a imagem na área de transferência:', error)
+                })
+            })
+            .catch((err: any) => {
+                console.error('Erro ao capturar a div como uma imagem:', err)
+            })
+    }
+
+    const dataUrlToBlob = (dataUrl: any) => {
+        var arr = dataUrl.split(',');
+        var mime = arr[0].match(/:(.*?);/)[1];
+        var bstr = atob(arr[1]);
+        var n = bstr.length;
+        var u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], { type: mime });
+    }
+
+    useEffect(() => {
+        handleGetTitles()
+    }, [])
 
     const ModalShare = () => {
         return (
@@ -444,9 +557,6 @@ const Index = () => {
             <Head>
                 <title>Valorant - Gerador</title>
             </Head>
-            <ModalWallpapers />
-            <ModalBanners />
-            <ModalElos />
             <ModalShare />
             <NavBar />
             <Box position={'relative'} bg={'rgba(0,0,0,1)'}>
@@ -469,7 +579,7 @@ const Index = () => {
                             <div className="border-generate"></div>
                             <Box
                                 className="banner-generate"
-                                bgImage={banner}
+                                bgImage={card}
                             >
                                 <Text style={{
                                     letterSpacing: '1px',
@@ -573,96 +683,21 @@ const Index = () => {
                                     titles.map((titlesResp: any) => {
                                         return (
                                             <option
-                                                value={removeTitle(titlesResp.displayName)}
+                                                value={titlesResp.titleText}
                                                 key={titlesResp.uuid}
                                             >
-                                                {removeTitle(titlesResp.displayName)}
+                                                {titlesResp.titleText}
                                             </option>
                                         )
                                     })
                                 }
                             </Select>
-                            <Flex
-                                borderBottom={'1px'}
-                                borderLeft={'1px'}
-                                borderColor={'#ece8e1'}
-                            >
-                                <Button
-                                    width={'100%'}
-                                    bg={'#ece8e1'}
-                                    mb={2}
-                                    ml={2}
-                                    color={'#0f1923'}
-                                    borderRadius={'0px'}
-                                    onClick={() => onOpenBanner()}
-                                    _hover={{
-                                        bg: '#ff4656',
-                                        color: '#0f1923'
-                                    }}
-                                >
-                                    <Text
-                                        _hover={{
-                                            color: '#0f1923'
-                                        }}
-                                    >
-                                        Selecione o seu Banner
-                                    </Text>
-                                </Button>
-                            </Flex>
-                            <Flex
-                                borderBottom={'1px'}
-                                borderLeft={'1px'}
-                                borderColor={'#ece8e1'}
-                            >
-                                <Button
-                                    width={'100%'}
-                                    bg={'#ece8e1'}
-                                    mb={2}
-                                    ml={2}
-                                    color={'#0f1923'}
-                                    borderRadius={'0px'}
-                                    onClick={() => onOpenElo()}
-                                    _hover={{
-                                        bg: '#ff4656',
-                                        color: '#0f1923'
-                                    }}
-                                >
-                                    <Text
-                                        _hover={{
-                                            color: '#0f1923'
-                                        }}
-                                    >
-                                        Selecione o seu Elo
-                                    </Text>
-                                </Button>
-                            </Flex>
-                            <Flex
-                                borderBottom={'1px'}
-                                borderLeft={'1px'}
-                                borderColor={'#ece8e1'}
-                            >
-                                <Button
-                                    width={'100%'}
-                                    bg={'#ece8e1'}
-                                    mb={2}
-                                    ml={2}
-                                    color={'#0f1923'}
-                                    borderRadius={'0px'}
-                                    onClick={() => onOpenWallpaper()}
-                                    _hover={{
-                                        bg: '#ff4656',
-                                        color: '#0f1923'
-                                    }}
-                                >
-                                    <Text
-                                        _hover={{
-                                            color: '#0f1923'
-                                        }}
-                                    >
-                                        Selecione o seu Wallpaper
-                                    </Text>
-                                </Button>
-                            </Flex>
+
+                            
+                            <ModalBanners />
+                            <ModalElos/>
+                            <ModalWallpapers/>
+                            
                             <Flex
                                 borderBottom={'1px'}
                                 borderLeft={'1px'}

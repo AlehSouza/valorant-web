@@ -7,6 +7,23 @@ import { Footer, NavBar } from "@/components";
 import { useRouter } from "next/navigation";
 
 const weapons = [
+    
+    {
+        "uuid": "2f59173c-4bed-b6c3-2191-dea9b58be9c7",
+        "displayName": "Melee",
+        "defaultSkin": "https://media.valorant-api.com/weaponskinchromas/cac83e5c-47a1-3519-5420-1db1fdbc4892/fullrender.png",
+        "isPistol": true,
+    },
+    {
+        "uuid": "9c82e19d-4575-0200-1a81-3eacf00cf872",
+        "displayName": "Vandal",
+        "defaultSkin": "https://media.valorant-api.com/weaponskinchromas/19629ae1-4996-ae98-7742-24a240d41f99/fullrender.png"
+    },
+    {
+        "uuid": "ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a",
+        "displayName": "Phantom",
+        "defaultSkin": "https://media.valorant-api.com/weaponskinchromas/52221ba2-4e4c-ec76-8c81-3483506d5242/fullrender.png"
+    },
     {
         "uuid": "63e6c2b6-4a8e-869c-3d4c-e38355226584",
         "displayName": "Odin",
@@ -18,19 +35,9 @@ const weapons = [
         "defaultSkin": "https://media.valorant-api.com/weaponskinchromas/b33de820-4061-8b85-31ce-808f1a2c58f5/fullrender.png"
     },
     {
-        "uuid": "9c82e19d-4575-0200-1a81-3eacf00cf872",
-        "displayName": "Vandal",
-        "defaultSkin": "https://media.valorant-api.com/weaponskinchromas/19629ae1-4996-ae98-7742-24a240d41f99/fullrender.png"
-    },
-    {
         "uuid": "ae3de142-4d85-2547-dd26-4e90bed35cf7",
         "displayName": "Bulldog",
         "defaultSkin": "https://media.valorant-api.com/weaponskinchromas/bf35f404-4a14-6953-ced2-5bafd21639a0/fullrender.png"
-    },
-    {
-        "uuid": "ee8e8d15-496b-07ac-e5f6-8fae5d4c7b1a",
-        "displayName": "Phantom",
-        "defaultSkin": "https://media.valorant-api.com/weaponskinchromas/52221ba2-4e4c-ec76-8c81-3483506d5242/fullrender.png"
     },
     {
         "uuid": "ec845bf4-4f79-ddda-a3da-0db3774b2794",
@@ -102,12 +109,6 @@ const weapons = [
         "displayName": "Stinger",
         "defaultSkin": "https://media.valorant-api.com/weaponskinchromas/31bb2115-4c62-d37c-43c4-11b8fee7f212/fullrender.png"
     },
-    {
-        "uuid": "2f59173c-4bed-b6c3-2191-dea9b58be9c7",
-        "displayName": "Melee",
-        "defaultSkin": "https://media.valorant-api.com/weaponskinchromas/cac83e5c-47a1-3519-5420-1db1fdbc4892/fullrender.png",
-        "isPistol": true,
-    }
 ]
 
 const Index = () => {
@@ -159,10 +160,10 @@ const Index = () => {
                             {
                                 weapons &&
                                 weapons.length > 0 &&
-                                weapons.map((weapon: any) => {
+                                weapons.map((weapon: any, index: number) => {
                                     return (
                                         <Flex
-                                            key={weapon.uuid}
+                                            key={index}
                                             width={400}
                                             height={200}
                                             position={'relative'}
